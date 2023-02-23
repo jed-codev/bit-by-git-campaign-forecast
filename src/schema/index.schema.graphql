@@ -1,0 +1,7 @@
+type Query {
+  sampleQuery: SampleQuery
+}
+
+type Mutation {
+  sampleMutation: SampleMutation
+}

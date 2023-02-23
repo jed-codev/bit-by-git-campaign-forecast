@@ -1,0 +1,3296 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model addresses {
+  id           Int       @id @default(autoincrement())
+  street       String?   @db.VarChar(255)
+  city         String?   @db.VarChar(255)
+  region       String?   @db.VarChar(255)
+  country      String?   @db.VarChar(255)
+  zip          String?   @db.VarChar(255)
+  latitude     Float?    @db.Float
+  longitude    Float?    @db.Float
+  full_address String?   @db.VarChar(255)
+  mod_id       String?   @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  deleted_at   DateTime? @db.DateTime(0)
+  zip_bak      String?   @db.VarChar(255)
+}
+
+model admin_statistics {
+  id                             Int       @id @default(autoincrement())
+  total_raised_this_year         Int?
+  launches_this_year             Int?
+  sales_this_year                Int?
+  users_this_year                Int?
+  active_salesreps               Int?
+  donations_this_year            Int?
+  email_count_today              Int?
+  users_today                    Int?
+  total_raised_today             Int?
+  self_signups_today             Int?
+  game_plan_calls_today          Int?
+  fundraisers_starting_yesterday Int?
+  fundraisers_starting_today     Int?
+  fundraisers_starting_tomorrow  Int?
+  fundraisers_ending_yesterday   Int?
+  fundraisers_ending_today       Int?
+  fundraisers_ending_tomorrow    Int?
+  rounded_time_interval          DateTime? @db.DateTime(0)
+  created_at                     DateTime? @db.DateTime(0)
+  updated_at                     DateTime? @db.DateTime(0)
+}
+
+model am_salesrep_pay_groups {
+  id             Int       @id @default(autoincrement())
+  am_salesrep_id Int?
+  pay_group_id   Int?
+  start_date     DateTime? @db.DateTime(0)
+  end_date       DateTime? @db.DateTime(0)
+  deleted_at     DateTime? @db.DateTime(0)
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+
+  @@index([am_salesrep_id], map: "index_am_salesrep_pay_groups_on_am_salesrep_id")
+  @@index([pay_group_id], map: "index_am_salesrep_pay_groups_on_pay_group_id")
+}
+
+model am_salesreps {
+  id                  Int       @id @default(autoincrement())
+  namely_id           String?   @db.VarChar(255)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+  salesrep_id         Int?
+  trainer_id          Int?
+  sales_manager_id    Int?
+  am_id               Int?
+  address             String?   @db.VarChar(255)
+  city                String?   @db.VarChar(255)
+  region              String?   @db.VarChar(255)
+  zip                 String?   @db.VarChar(255)
+  country             String?   @db.VarChar(255)
+  pay_group_name      String?   @db.VarChar(255)
+  remote              Boolean   @default(false)
+  start_date          DateTime? @db.Date
+  end_date            DateTime? @db.Date
+  draw_amount         Int?
+  base                Int?
+  draw_end_date       DateTime? @db.Date
+  commission_end_date DateTime? @db.Date
+  phone               String?   @db.VarChar(255)
+  pants_size          String?   @db.VarChar(255)
+  shirt_size          String?   @db.VarChar(255)
+  territory           String?   @db.VarChar(255)
+  territory_zip_codes String?   @db.Text
+  territory_zone      String?   @db.VarChar(255)
+  territory_map       String?   @db.VarChar(255)
+  sdr_required        Boolean   @default(true)
+  new_territory       String?   @db.VarChar(255)
+  latitude            Float?    @db.Float
+  longitude           Float?    @db.Float
+  is_csm_salesrep     Boolean?  @default(false)
+  salesrep_type       String?   @db.VarChar(255)
+
+  @@index([am_id], map: "index_am_salesreps_on_am_id")
+  @@index([namely_id], map: "index_am_salesreps_on_namely_id")
+  @@index([salesrep_id], map: "index_am_salesreps_on_salesrep_id")
+}
+
+model ambitions_engagement_calls {
+  id                    String    @id @db.VarChar(255)
+  hs_call_to_number     String?   @db.VarChar(255)
+  hs_call_body          String?   @db.MediumText
+  hs_call_duration      String?   @db.VarChar(255)
+  hs_call_from_number   String?   @db.VarChar(255)
+  hs_call_recording_url String?   @db.VarChar(255)
+  hs_call_status        String?   @db.VarChar(255)
+  hs_call_title         String?   @db.VarChar(255)
+  hs_createdate         DateTime? @db.DateTime(0)
+  hs_lastmodifieddate   DateTime? @db.DateTime(0)
+  hs_object_id          String?   @db.VarChar(255)
+  hs_timestamp          DateTime? @db.DateTime(0)
+  hubspot_owner_id      String?   @db.VarChar(255)
+}
+
+model ambitions_engagement_emails {
+  id                        String    @id @db.VarChar(255)
+  hs_createdate             DateTime? @db.DateTime(0)
+  hs_email_direction        String?   @db.VarChar(255)
+  hs_email_sender_email     String?   @db.VarChar(255)
+  hs_email_sender_firstname String?   @db.VarChar(255)
+  hs_email_sender_lastname  String?   @db.VarChar(255)
+  hs_email_status           String?   @db.VarChar(255)
+  hs_email_subject          String?   @db.VarChar(255)
+  hs_email_text             String?   @db.MediumText
+  hs_email_to_email         String?   @db.VarChar(255)
+  hs_email_to_firstname     String?   @db.VarChar(255)
+  hs_email_to_lastname      String?   @db.VarChar(255)
+  hs_lastmodifieddate       DateTime? @db.DateTime(0)
+  hs_object_id              String?   @db.VarChar(255)
+  hs_timestamp              DateTime? @db.DateTime(0)
+  hubspot_owner_id          String?   @db.VarChar(255)
+}
+
+model ambitions_engagement_meetings {
+  id                        String    @id @db.VarChar(255)
+  hs_createdate             DateTime? @db.DateTime(0)
+  hs_internal_meeting_notes String?   @db.LongText
+  hs_lastmodifieddate       DateTime? @db.DateTime(0)
+  hs_meeting_body           String?   @db.LongText
+  hs_meeting_end_time       DateTime? @db.DateTime(0)
+  hs_meeting_location       String?   @db.LongText
+  hs_meeting_outcome        String?   @db.VarChar(255)
+  hs_meeting_start_time     DateTime? @db.DateTime(0)
+  hs_meeting_title          String?   @db.LongText
+  hs_object_id              String?   @db.VarChar(255)
+  hs_timestamp              DateTime? @db.DateTime(0)
+  hubspot_owner_id          String?   @db.VarChar(255)
+}
+
+model ambitions_engagement_notes {
+  id                  String    @id @db.VarChar(255)
+  hs_createdate       DateTime? @db.DateTime(0)
+  hs_note_body        String?   @db.LongText
+  hs_lastmodifieddate String?   @db.VarChar(255)
+  hs_object_id        String?   @db.VarChar(255)
+  hs_timestamp        DateTime? @db.DateTime(0)
+  hubspot_owner_id    String?   @db.VarChar(255)
+}
+
+model ambitions_engagement_tasks {
+  id                  String    @id @db.VarChar(255)
+  hs_createdate       DateTime? @db.DateTime(0)
+  hs_lastmodifieddate DateTime? @db.DateTime(0)
+  hs_task_body        String?   @db.LongText
+  hs_task_priority    String?   @db.VarChar(255)
+  hs_task_status      String?   @db.VarChar(255)
+  hs_task_subject     String?   @db.VarChar(255)
+  hs_timestamp        DateTime? @db.DateTime(0)
+  hubspot_owner_id    String?   @db.VarChar(255)
+}
+
+model ambitions_hubspot_owners {
+  id        String    @id @db.VarChar(255)
+  name      String?   @db.VarChar(255)
+  email     String?   @db.VarChar(255)
+  firstName String?   @db.VarChar(255)
+  lastName  String?   @db.VarChar(255)
+  userId    String?   @db.VarChar(255)
+  createdAt DateTime? @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
+  archived  String?   @db.VarChar(255)
+  teams     String?   @db.MediumText
+}
+
+model api_keys {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  access_token String?   @db.VarChar(255)
+  status       String?   @default("active") @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+
+  @@index([access_token], map: "index_api_keys_on_access_token")
+  @@index([user_id], map: "index_api_keys_on_user_id")
+}
+
+model ar_internal_metadata {
+  key        String   @id @db.VarChar(255)
+  value      String?  @db.VarChar(255)
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model audit_entries {
+  id            Int      @id @default(autoincrement())
+  event_type    String?  @db.VarChar(255)
+  source_id     Int?
+  source_type   String?  @db.VarChar(255)
+  target_id     Int?
+  target_type   String?  @db.VarChar(255)
+  context_id    Int?
+  context_type  String?  @db.VarChar(255)
+  payload       String?  @db.Text
+  request_id    String?  @db.VarChar(255)
+  ip_address    String?  @db.VarChar(255)
+  user_agent    String?  @db.Text
+  result_status String?  @db.VarChar(255)
+  created_at    DateTime @db.DateTime(0)
+  updated_at    DateTime @db.DateTime(0)
+
+  @@index([context_id, context_type], map: "index_audit_entries_on_context_id_and_context_type")
+  @@index([event_type], map: "index_audit_entries_on_event_type")
+  @@index([source_id, source_type], map: "index_audit_entries_on_source_id_and_source_type")
+  @@index([target_id, target_type], map: "index_audit_entries_on_target_id_and_target_type")
+}
+
+model blazer_audits {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  query_id    Int?
+  statement   String?   @db.Text
+  data_source String?   @db.VarChar(255)
+  created_at  DateTime? @db.DateTime(0)
+}
+
+model blazer_checks {
+  id          Int       @id @default(autoincrement())
+  creator_id  Int?
+  query_id    Int?
+  state       String?   @db.VarChar(255)
+  schedule    String?   @db.VarChar(255)
+  emails      String?   @db.Text
+  check_type  String?   @db.VarChar(255)
+  message     String?   @db.Text
+  last_run_at DateTime? @db.DateTime(0)
+  created_at  DateTime  @db.DateTime(0)
+  updated_at  DateTime  @db.DateTime(0)
+}
+
+model blazer_dashboard_queries {
+  id           Int      @id @default(autoincrement())
+  dashboard_id Int?
+  query_id     Int?
+  position     Int?
+  created_at   DateTime @db.DateTime(0)
+  updated_at   DateTime @db.DateTime(0)
+}
+
+model blazer_dashboards {
+  id              Int      @id @default(autoincrement())
+  creator_id      Int?
+  name            String?  @db.Text
+  blazer_group_id Int?
+  created_at      DateTime @db.DateTime(0)
+  updated_at      DateTime @db.DateTime(0)
+
+  @@index([blazer_group_id], map: "index_blazer_dashboards_on_blazer_group_id")
+}
+
+model blazer_groups {
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model blazer_queries {
+  id              Int      @id @default(autoincrement())
+  creator_id      Int?
+  name            String?  @db.VarChar(255)
+  description     String?  @db.Text
+  statement       String?  @db.Text
+  blazer_group_id Int?
+  data_source     String?  @db.VarChar(255)
+  created_at      DateTime @db.DateTime(0)
+  updated_at      DateTime @db.DateTime(0)
+
+  @@index([blazer_group_id], map: "index_blazer_queries_on_blazer_group_id")
+}
+
+model brands {
+  id              Int      @id @default(autoincrement())
+  primary_color   String?  @db.VarChar(255)
+  secondary_color String?  @db.VarChar(255)
+  logo            String?  @db.VarChar(255)
+  created_at      DateTime @db.DateTime(0)
+  updated_at      DateTime @db.DateTime(0)
+}
+
+model calculated_statistics {
+  id          Int       @id @default(autoincrement())
+  value       String?   @db.VarChar(255)
+  category    String?   @db.VarChar(255)
+  grouping    String?   @db.VarChar(255)
+  unit        String?   @db.VarChar(255)
+  start_range DateTime? @db.DateTime(0)
+  end_range   DateTime? @db.DateTime(0)
+  target_id   Int?
+  target_type String?   @db.VarChar(255)
+  created_at  DateTime  @db.DateTime(0)
+  updated_at  DateTime  @db.DateTime(0)
+
+  @@index([start_range, end_range, grouping], map: "index_calculated_statistics_on_ranges_and_grouping")
+}
+
+model calendar_events {
+  id          Int       @id @default(autoincrement())
+  calendar_id Int?
+  event_id    Int?
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+
+  @@index([calendar_id], map: "index_calendar_events_on_calendar_id")
+  @@index([event_id], map: "index_calendar_events_on_event_id")
+}
+
+model calendars {
+  id                Int       @id @default(autoincrement())
+  calendarable_id   Int?
+  calendarable_type String?   @db.VarChar(255)
+  time_zone         String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([calendarable_type, calendarable_id], map: "index_calendars_on_calendarable_type_and_calendarable_id")
+}
+
+model check_ins {
+  id                    Int       @id @default(autoincrement())
+  user_id               Int?
+  external_id           String?   @db.VarChar(255)
+  parent_check_in_id    Int?
+  mod_organization_id   String?   @db.VarChar(255)
+  draft_organization_id Int?
+  name                  String?   @db.VarChar(255)
+  street                String?   @db.VarChar(255)
+  city                  String?   @db.VarChar(255)
+  region                String?   @db.VarChar(255)
+  country               String?   @db.VarChar(255)
+  zip                   String?   @db.VarChar(255)
+  latitude              Float?    @db.Float
+  longitude             Float?    @db.Float
+  check_in_type         String?   @db.VarChar(255)
+  notes                 String?   @db.Text
+  note_id               Int?
+  check_out_time        DateTime? @db.DateTime(0)
+  deleted_at            DateTime? @db.DateTime(0)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+
+  @@index([draft_organization_id], map: "index_check_ins_on_draft_organization_id")
+  @@index([external_id], map: "index_check_ins_on_external_id")
+  @@index([note_id], map: "index_check_ins_on_note_id")
+  @@index([user_id], map: "index_check_ins_on_user_id")
+}
+
+model clinic_addresses {
+  id           Int       @id @default(autoincrement())
+  address_type String?   @db.VarChar(255)
+  priority     String?   @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  address_id   Int?
+  clinic_id    Int?
+
+  @@index([address_id], map: "index_clinic_addresses_on_address_id")
+  @@index([clinic_id], map: "index_clinic_addresses_on_clinic_id")
+}
+
+model clinic_organizers {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  url        String?   @db.VarChar(255)
+  notes      String?   @db.Text
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model clinic_salesreps {
+  id          Int       @id @default(autoincrement())
+  notes       String?   @db.Text
+  salesrep_id Int?
+  clinic_id   Int?
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+
+  @@index([clinic_id], map: "index_clinic_salesreps_on_clinic_id")
+  @@index([salesrep_id], map: "index_clinic_salesreps_on_salesrep_id")
+}
+
+model clinics {
+  id                      Int       @id @default(autoincrement())
+  name                    String?   @db.VarChar(255)
+  status                  String    @default("pending") @db.VarChar(255)
+  url                     String?   @db.VarChar(255)
+  focus                   String?   @db.VarChar(255)
+  description             String?   @db.Text
+  slug                    String    @unique(map: "index_clinics_on_slug") @db.VarChar(255)
+  customized_slug         String    @default("") @db.VarChar(255)
+  notes                   String?   @db.Text
+  registration_cost_cents Int?
+  hotels_booked           Boolean?
+  door_prize_needed       Boolean?
+  internet_provided       Boolean?
+  electricity_provided    Boolean?
+  clinic_organizer_id     Int?
+  podio_item_id           Int?      @unique(map: "index_clinics_on_podio_item_id")
+  podio_item_url          String?   @db.VarChar(255)
+  start_datetime          DateTime? @db.DateTime(0)
+  end_datetime            DateTime? @db.DateTime(0)
+  setup_time_start        DateTime? @db.DateTime(0)
+  setup_time_end          DateTime? @db.DateTime(0)
+  created_at              DateTime? @db.DateTime(0)
+  updated_at              DateTime? @db.DateTime(0)
+
+  @@index([clinic_organizer_id], map: "index_clinics_on_clinic_organizer_id")
+  @@index([status], map: "index_clinics_on_status")
+}
+
+model commissions {
+  id                     Int       @id @default(autoincrement())
+  fundraiser_id          Int?
+  salesrep_id            Int?
+  adjusted_id            Int?
+  shop_order_gid         String?   @db.VarChar(255)
+  amount_cents           Int?
+  adjust_cents           Int?
+  notes                  String?   @db.Text
+  period_end             DateTime? @db.Date
+  pay_type               String?   @db.VarChar(255)
+  paid                   Boolean   @default(false)
+  hidden                 Boolean   @default(true)
+  affects_draw           Boolean?  @default(true)
+  pay_subtype            String?   @db.VarChar(255)
+  launches               Int?
+  resigns                Int?
+  closed                 Int?
+  sales                  Int?
+  avg_total_raised_cents Int?
+  net_revenue_cents      Int?
+  avg_participation_int  Int?
+  bonus_points           Int?
+  created_at             DateTime? @db.DateTime(0)
+  updated_at             DateTime? @db.DateTime(0)
+  deleted_at             DateTime? @db.DateTime(0)
+
+  @@index([adjusted_id], map: "index_commissions_on_adjusted_id")
+  @@index([deleted_at], map: "index_commissions_on_deleted_at")
+  @@index([fundraiser_id], map: "index_commissions_on_fundraiser_id")
+  @@index([period_end], map: "index_commissions_on_period_end")
+  @@index([period_end, pay_subtype], map: "index_commissions_on_period_end_and_pay_subtype")
+  @@index([period_end, pay_type], map: "index_commissions_on_period_end_and_pay_type")
+  @@index([salesrep_id], map: "index_commissions_on_salesrep_id")
+  @@index([salesrep_id, period_end], map: "index_commissions_on_salesrep_id_and_period_end")
+  @@index([salesrep_id, period_end, pay_subtype], map: "index_commissions_on_salesrep_id_and_period_end_and_pay_subtype")
+  @@index([salesrep_id, period_end, pay_type], map: "index_commissions_on_salesrep_id_and_period_end_and_pay_type")
+}
+
+model configuration_engine_conditions {
+  id                           Int       @id @default(autoincrement())
+  configuration_engine_rule_id Int?
+  condition_type               String?   @db.VarChar(255)
+  params                       String?   @db.Text
+  deleted_at                   DateTime? @db.DateTime(0)
+  created_at                   DateTime  @db.DateTime(0)
+  updated_at                   DateTime  @db.DateTime(0)
+}
+
+model configuration_engine_effects {
+  id                           Int       @id @default(autoincrement())
+  configuration_engine_rule_id Int?
+  effect_type                  String?   @db.VarChar(255)
+  params                       String?   @db.Text
+  deleted_at                   DateTime? @db.DateTime(0)
+  created_at                   DateTime  @db.DateTime(0)
+  updated_at                   DateTime  @db.DateTime(0)
+}
+
+model configuration_engine_rules {
+  id          Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(255)
+  description String?   @db.Text
+  active      Boolean?
+  deleted_at  DateTime? @db.DateTime(0)
+  created_at  DateTime  @db.DateTime(0)
+  updated_at  DateTime  @db.DateTime(0)
+}
+
+model contact_templates {
+  id             Int       @id @default(autoincrement())
+  user_id        Int?
+  status         String?   @db.VarChar(255)
+  subject        String?   @db.VarChar(255)
+  body           String?   @db.Text
+  global_count   Int?
+  user_count     Int?
+  priority       Int?
+  category       String?   @db.VarChar(255)
+  contact_method String?   @db.VarChar(255)
+  global_at      DateTime? @db.DateTime(0)
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "index_contact_templates_on_user_id")
+}
+
+model contacts {
+  id                   Int       @id @default(autoincrement())
+  user_id              Int?
+  name                 String?   @db.VarChar(255)
+  email                String?   @db.VarChar(255)
+  phone                String?   @db.VarChar(255)
+  birth_date           String?   @db.VarChar(255)
+  gender               String    @default("not specified") @db.VarChar(255)
+  notes                String?   @db.Text
+  previous_involvement String?   @db.VarChar(255)
+  room_number          String?   @db.VarChar(255)
+  on_campus            Boolean   @default(false)
+  created_at           DateTime? @db.DateTime(0)
+  updated_at           DateTime? @db.DateTime(0)
+  deleted_at           DateTime? @db.DateTime(0)
+
+  @@index([email], map: "fulltext_index_contacts_on_email")
+  @@index([name], map: "fulltext_index_contacts_on_name")
+  @@index([email], map: "index_contacts_on_email")
+  @@index([user_id], map: "index_contacts_on_user_id")
+}
+
+model content_sections {
+  id              Int      @id @default(autoincrement())
+  content_type    String?  @db.VarChar(255)
+  url             String?  @db.VarChar(255)
+  body            String?  @db.Text
+  acceptance_text String?  @db.VarChar(255)
+  decline_text    String?  @db.VarChar(255)
+  uuid            String?  @db.VarChar(255)
+  created_at      DateTime @db.DateTime(0)
+  updated_at      DateTime @db.DateTime(0)
+
+  @@index([content_type], map: "index_content_sections_on_content_type")
+  @@index([uuid], map: "index_content_sections_on_uuid")
+}
+
+model conversation_exchange_messages {
+  id                    Int       @id @default(autoincrement())
+  conversation_exchange String?   @db.VarChar(255)
+  conversation_id       Int?
+  message_body          String?   @db.VarChar(255)
+  twilio_message_sid    String?   @db.VarChar(255)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+}
+
+model conversations {
+  id                             Int       @id @default(autoincrement())
+  phone_number                   String?   @db.VarChar(255)
+  conversable_id                 Int?
+  conversable_type               String?   @db.VarChar(255)
+  conversation_exchange_sequence String?   @db.VarChar(255)
+  active_conversation_exchange   String?   @db.VarChar(255)
+  fundraiser_id                  Int?
+  status                         String?   @db.VarChar(255)
+  blacklisted                    Boolean   @default(false)
+  created_at                     DateTime? @db.DateTime(0)
+  updated_at                     DateTime? @db.DateTime(0)
+
+  @@index([phone_number], map: "index_conversations_on_phone_number")
+}
+
+model delayed_jobs {
+  id         Int       @id @default(autoincrement())
+  priority   Int       @default(0)
+  attempts   Int       @default(0)
+  handler    String    @db.Text
+  last_error String?   @db.Text
+  run_at     DateTime? @db.DateTime(0)
+  locked_at  DateTime? @db.DateTime(0)
+  failed_at  DateTime? @db.DateTime(0)
+  locked_by  String?   @db.VarChar(255)
+  queue      String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@index([priority, run_at], map: "delayed_jobs_priority")
+}
+
+model donation_invites {
+  id                         Int       @id @default(autoincrement())
+  email                      String?   @db.VarChar(255)
+  sender_name                String?   @db.VarChar(255)
+  status                     String?   @db.VarChar(255)
+  last_email_sent_at         DateTime? @db.DateTime(0)
+  last_email_number          Int?
+  checkout_reminder_sent_at  DateTime? @db.DateTime(0)
+  created_at                 DateTime? @db.DateTime(0)
+  updated_at                 DateTime? @db.DateTime(0)
+  fundraiser_id              Int?
+  user_id                    Int?
+  fundraiser_user_id         Int?
+  msg_id_0                   String?   @db.VarChar(255)
+  opens_0                    Int?
+  clicks_0                   Int?
+  msg_id_1                   String?   @db.VarChar(255)
+  opens_1                    Int?
+  clicks_1                   Int?
+  msg_id_2                   String?   @db.VarChar(255)
+  opens_2                    Int?
+  clicks_2                   Int?
+  msg_id_3                   String?   @db.VarChar(255)
+  opens_3                    Int?
+  clicks_3                   Int?
+  follow_up_number           Int?      @default(0)
+  follow_up_last_sent        DateTime? @db.DateTime(0)
+  last_email_delivery_status String    @default("unknown") @db.VarChar(255)
+  relationship_to_sender     String?   @db.VarChar(255)
+  msg_id_4                   String?   @db.VarChar(255)
+  opens_4                    Int?
+  clicks_4                   Int?
+  msg_id_5                   String?   @db.VarChar(255)
+  opens_5                    Int?
+  clicks_5                   Int?
+  msg_id_last_day_donation   String?   @db.VarChar(255)
+  opens_last_day_donation    Int?
+  clicks_last_day_donation   Int?
+
+  @@index([created_at], map: "index_donation_invites_on_created_at")
+  @@index([fundraiser_id], map: "index_donation_invites_on_fundraiser_id")
+  @@index([fundraiser_user_id], map: "index_donation_invites_on_fundraiser_user_id")
+  @@index([user_id], map: "index_donation_invites_on_user_id")
+}
+
+model donation_level_defaults {
+  id                    Int       @id @default(autoincrement())
+  fundraiser_default_id Int?
+  amount                Int?
+  impact                String?   @db.VarChar(255)
+  reward_description    String?   @db.VarChar(255)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+}
+
+model donation_levels {
+  id                          Int       @id @default(autoincrement())
+  fundraiser_configuration_id Int?
+  amount                      String?   @db.VarChar(255)
+  impact                      String?   @db.VarChar(255)
+  created_at                  DateTime? @db.DateTime(0)
+  updated_at                  DateTime? @db.DateTime(0)
+  fundraiser_id               Int?
+  product_id                  Int?
+  reward_description          String?   @db.VarChar(255)
+
+  @@index([fundraiser_configuration_id], map: "index_donation_levels_on_fundraiser_configuration_id")
+  @@index([fundraiser_id], map: "index_donation_levels_on_fundraiser_id")
+  @@index([product_id], map: "index_donation_levels_on_product_id")
+}
+
+model donations {
+  id                     Int       @id @default(autoincrement())
+  fundraiser_id          Int?
+  participant_id         Int?
+  supporter_id           Int?
+  donor_name             String?   @db.VarChar(255)
+  donor_id               Int?
+  donation_level_id      Int?
+  checkout_id            String?   @db.VarChar(255)
+  status                 String?   @db.VarChar(255)
+  checkout_state         String?   @db.VarChar(255)
+  app_fee_cents          Int?
+  int_cc_fee_cents       Int?
+  ext_cc_fee_cents       Int?
+  postal_code            String?   @db.VarChar(255)
+  country_code           String?   @db.VarChar(255)
+  origin_ip              String?   @db.VarChar(255)
+  subtotal               String?   @db.VarChar(255)
+  subtotal_cents         Int?
+  service_fee_cents      Int?
+  total_price_cents      Int?
+  coverage_amount_cents  Int?      @default(0)
+  average_donation_cents Int?
+  credit_card_id         String?   @db.VarChar(255)
+  authorization_code     String?   @db.VarChar(255)
+  transaction_id         String?   @db.VarChar(255)
+  anonymous              Boolean?  @default(false)
+  newsletter_opt_in      Boolean   @default(false)
+  fb_post_id             String?   @db.VarChar(255)
+  donor_message          String?   @db.VarChar(500)
+  match_don              String?   @db.VarChar(255)
+  origin                 String?   @db.VarChar(255)
+  share_type             String?   @default("undefined") @db.VarChar(255)
+  deleted_at             DateTime? @db.DateTime(0)
+  charged_back_at        DateTime? @db.DateTime(0)
+  created_at             DateTime? @db.DateTime(0)
+  updated_at             DateTime? @db.DateTime(0)
+  tip_amount_cents       Int?
+  refund_reason          String?   @db.VarChar(255)
+  dispute_won_id         String?   @db.VarChar(255)
+
+  @@index([donor_id], map: "index_donation_on_donor_id")
+  @@index([checkout_id], map: "index_donations_on_checkout_id")
+  @@index([created_at, deleted_at, subtotal_cents], map: "index_donations_on_created_at_and_deleted_at_and_subtotal_cents")
+  @@index([deleted_at], map: "index_donations_on_deleted_at")
+  @@index([donation_level_id], map: "index_donations_on_donation_level_id")
+  @@index([fundraiser_id], map: "index_donations_on_fundraiser_id")
+  @@index([fundraiser_id, deleted_at], map: "index_donations_on_fundraiser_id_and_deleted_at")
+  @@index([fundraiser_id, status, deleted_at], map: "index_donations_on_fundraiser_id_and_status_and_deleted_at")
+  @@index([fundraiser_id, participant_id, status, deleted_at], map: "index_donations_on_fundraiser_participant_status_deleted")
+  @@index([supporter_id], map: "index_donations_on_supporter_id")
+}
+
+model draft_organizations {
+  id                Int       @id @default(autoincrement())
+  lead_id           Int?
+  federal_tax_id    String?   @db.VarChar(255)
+  url               String?   @db.VarChar(255)
+  name              String?   @db.VarChar(255)
+  city              String?   @db.VarChar(255)
+  state             String?   @db.VarChar(255)
+  organization_type String?   @db.VarChar(255)
+  notes             String?   @db.Text
+  claimer_id        Int?
+  claimed_at        DateTime? @db.DateTime(0)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([claimer_id], map: "index_draft_organizations_on_claimer_id")
+  @@index([federal_tax_id], map: "index_draft_organizations_on_federal_tax_id")
+  @@index([lead_id], map: "index_draft_organizations_on_lead_id")
+}
+
+model email_interactions {
+  id               Int      @id @default(autoincrement())
+  email_id         Int?
+  interaction_type String?  @db.VarChar(255)
+  created_at       DateTime @db.DateTime(0)
+  updated_at       DateTime @db.DateTime(0)
+
+  @@index([email_id], map: "index_email_interactions_on_email_id")
+}
+
+model emails {
+  id               Int       @id @default(autoincrement())
+  template_name    String?   @db.VarChar(255)
+  person_id        Int?
+  contextable_type String?   @db.VarChar(255)
+  contextable_id   Int?
+  custom_text      String?   @db.Text
+  sent_at          DateTime? @db.DateTime(0)
+  created_at       DateTime  @db.DateTime(0)
+  updated_at       DateTime  @db.DateTime(0)
+
+  @@index([contextable_type, contextable_id], map: "index_emails_on_contextable_type_and_contextable_id")
+  @@index([person_id], map: "index_emails_on_person_id")
+}
+
+model entities {
+  id                    Int               @id @default(autoincrement())
+  system_level          Boolean?          @default(false)
+  hierarchy_path        String?           @db.MediumText
+  layer                 String?           @db.VarChar(255)
+  status                String?           @db.VarChar(255)
+  internal_display_name String?           @db.VarChar(255)
+  external_display_name String?           @db.VarChar(255)
+  created_at            DateTime          @db.DateTime(0)
+  updated_at            DateTime          @db.DateTime(0)
+  deleted_at            DateTime?         @db.DateTime(0)
+  entity_payments       entity_payments[]
+
+  @@index([hierarchy_path(length: 255)], map: "index_entities_on_hierarchy_path")
+  @@index([internal_display_name], map: "index_entities_on_internal_display_name")
+  @@index([layer], map: "index_entities_on_layer")
+  @@index([status], map: "index_entities_on_status")
+  @@index([system_level], map: "index_entities_on_system_level")
+}
+
+model entity_identifications {
+  id           Int       @id @default(autoincrement())
+  entity_id    Int?
+  requester_id Int?
+  key          String?   @db.VarChar(255)
+  value        String?   @db.VarChar(255)
+  status       String?   @db.VarChar(255)
+  source       String?   @db.VarChar(255)
+  created_at   DateTime  @db.DateTime(0)
+  updated_at   DateTime  @db.DateTime(0)
+  deleted_at   DateTime? @db.DateTime(0)
+
+  @@index([entity_id], map: "index_entity_identifications_on_entity_id")
+  @@index([key, value], map: "index_entity_identifications_on_key_and_value")
+  @@index([requester_id], map: "index_entity_identifications_on_requester_id")
+  @@index([status], map: "index_entity_identifications_on_status")
+}
+
+model entity_memberships {
+  id         Int       @id @default(autoincrement())
+  entity_id  Int?
+  user_id    Int?
+  role       String?   @db.VarChar(255)
+  created_at DateTime  @db.DateTime(0)
+  updated_at DateTime  @db.DateTime(0)
+  deleted_at DateTime? @db.DateTime(0)
+
+  @@index([entity_id], map: "index_entity_memberships_on_entity_id")
+  @@index([role], map: "index_entity_memberships_on_role")
+  @@index([user_id], map: "index_entity_memberships_on_user_id")
+}
+
+model entity_payments {
+  id                Int       @id @default(autoincrement())
+  entity_id         Int?
+  processor         String?   @db.VarChar(255)
+  payment_record    String?   @db.VarChar(255)
+  created_at        DateTime  @db.DateTime(0)
+  updated_at        DateTime  @db.DateTime(0)
+  status            String?   @db.VarChar(255)
+  deposit_frequency String?   @db.VarChar(255)
+  is_kyc_editable   Boolean?  @default(true)
+  entities          entities? @relation(fields: [entity_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_rails_475aa512d2")
+
+  @@index([entity_id], map: "index_entity_payments_on_entity_id")
+}
+
+model entity_resources {
+  id            Int       @id @default(autoincrement())
+  entity_id     Int?
+  resource_type String?   @db.VarChar(255)
+  resource_id   Int?
+  created_at    DateTime  @db.DateTime(0)
+  updated_at    DateTime  @db.DateTime(0)
+  deleted_at    DateTime? @db.DateTime(0)
+
+  @@index([entity_id], map: "index_entity_resources_on_entity_id")
+  @@index([resource_type, resource_id], map: "index_entity_resources_on_resource_type_and_resource_id")
+}
+
+model events {
+  id                 Int       @id @default(autoincrement())
+  name               String?   @db.VarChar(255)
+  start_datetime     DateTime? @db.DateTime(0)
+  end_datetime       DateTime? @db.DateTime(0)
+  start_date         DateTime? @db.Date
+  end_date           DateTime? @db.Date
+  event_type         String?   @db.VarChar(255)
+  external_id        String?   @db.VarChar(255)
+  description        String?   @db.Text
+  notes              String?   @db.Text
+  status             String?   @db.VarChar(255)
+  current_version_id Int?
+  created_at         DateTime? @db.DateTime(0)
+  updated_at         DateTime? @db.DateTime(0)
+  organizer_id       Int?
+  is_all_day         Boolean?
+
+  @@index([current_version_id], map: "index_events_on_current_version_id")
+  @@index([end_date], map: "index_events_on_end_date")
+  @@index([end_datetime], map: "index_events_on_end_datetime")
+  @@index([external_id], map: "index_events_on_external_id")
+  @@index([organizer_id], map: "index_events_on_organizer_id")
+  @@index([start_date], map: "index_events_on_start_date")
+  @@index([start_datetime], map: "index_events_on_start_datetime")
+}
+
+model external_keys {
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(255)
+  value         String?   @db.Text
+  mobile_app_id Int?
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([mobile_app_id], map: "index_external_keys_on_mobile_app_id")
+}
+
+model external_system_associations {
+  id                         Int      @id @default(autoincrement())
+  system_name                String?  @db.VarChar(255)
+  external_object_type       String?  @db.VarChar(255)
+  external_object_id         String?  @db.VarChar(255)
+  external_object_identifier String?  @db.VarChar(255)
+  internal_object_type       String?  @db.VarChar(255)
+  internal_object_id         Int?
+  created_at                 DateTime @db.DateTime(0)
+  updated_at                 DateTime @db.DateTime(0)
+
+  @@index([external_object_type, external_object_id], map: "index_external_system_associations_on_external_object_fields")
+  @@index([external_object_identifier], map: "index_external_system_associations_on_external_object_identifier")
+  @@index([internal_object_type, internal_object_id], map: "index_external_system_associations_on_internal_object_fields")
+}
+
+model fanatics_reports {
+  id             Int       @id @default(autoincrement())
+  pub_sub_id_1   String?   @db.VarChar(255)
+  pub_sub_id_2   String?   @db.VarChar(255)
+  pub_sub_id_3   String?   @db.VarChar(255)
+  pub_sub_id_4   String?   @db.VarChar(255)
+  entity_id      String?   @db.VarChar(255)
+  campaign       String?   @db.VarChar(255)
+  impressions    String?   @db.VarChar(255)
+  clicks         String?   @db.VarChar(255)
+  actions        String?   @db.VarChar(255)
+  sale_amount    String?   @db.VarChar(255)
+  returns        String?   @db.VarChar(255)
+  cpc_earnings   String?   @db.VarChar(255)
+  action_cost    String?   @db.VarChar(255)
+  total_earnings String?   @db.VarChar(255)
+  rr             String?   @db.VarChar(255)
+  created_at     DateTime  @db.DateTime(0)
+  updated_at     DateTime  @db.DateTime(0)
+  purchased_at   DateTime? @db.DateTime(0)
+}
+
+model feature_flag_options {
+  id             Int      @id @default(autoincrement())
+  value          String?  @db.VarChar(255)
+  label          String?  @db.VarChar(255)
+  description    String?  @db.VarChar(255)
+  context        String?  @db.VarChar(255)
+  flag_type      String?  @db.VarChar(255)
+  default_status String?  @db.VarChar(255)
+  active         Boolean?
+  created_at     DateTime @db.DateTime(0)
+  updated_at     DateTime @db.DateTime(0)
+}
+
+model feature_flag_sync_records {
+  id         Int       @id @default(autoincrement())
+  owner_type String?   @db.VarChar(255)
+  owner_id   Int?
+  synced_at  DateTime? @db.DateTime(0)
+
+  @@index([owner_id, owner_type], map: "index_feature_flag_sync_records_on_owner_id_and_owner_type")
+  @@index([owner_type], map: "index_feature_flag_sync_records_on_owner_type")
+  @@index([owner_type, owner_id], map: "index_feature_flag_sync_records_on_owner_type_and_owner_id")
+}
+
+model feature_flags {
+  id           Int      @id @default(autoincrement())
+  owner_type   String?  @db.VarChar(255)
+  owner_id     Int?
+  value        String?  @db.VarChar(255)
+  status       String?  @db.VarChar(255)
+  system_level Boolean  @default(false)
+  created_at   DateTime @db.DateTime(0)
+  updated_at   DateTime @db.DateTime(0)
+
+  @@index([owner_id, owner_type], map: "index_feature_flags_on_owner_id_and_owner_type")
+  @@index([owner_type, owner_id], map: "index_feature_flags_on_owner_type_and_owner_id")
+  @@index([system_level], map: "index_feature_flags_on_system_level")
+}
+
+model friendly_id_slugs {
+  id             Int       @id @default(autoincrement())
+  slug           String    @db.VarChar(255)
+  sluggable_id   Int
+  sluggable_type String?   @db.VarChar(50)
+  scope          String?   @db.VarChar(255)
+  created_at     DateTime? @db.DateTime(0)
+
+  @@unique([slug, sluggable_type, scope], map: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope")
+  @@index([slug, sluggable_type], map: "index_friendly_id_slugs_on_slug_and_sluggable_type")
+  @@index([sluggable_id], map: "index_friendly_id_slugs_on_sluggable_id")
+  @@index([sluggable_type], map: "index_friendly_id_slugs_on_sluggable_type")
+}
+
+model fundraiser_addresses {
+  id            Int       @id @default(autoincrement())
+  address_type  String?   @db.VarChar(255)
+  priority      String?   @db.VarChar(255)
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+  address_id    Int?
+  fundraiser_id Int?
+
+  @@index([address_id], map: "index_fundraiser_addresses_on_address_id")
+  @@index([fundraiser_id], map: "index_fundraiser_addresses_on_fundraiser_id")
+}
+
+model fundraiser_configurations {
+  id                                Int      @id @default(autoincrement())
+  description                       String?  @db.Text
+  personal_message                  String?  @db.Text
+  why_donations                     String?  @db.Text
+  primary_need                      String?  @db.VarChar(255)
+  leader_title                      String?  @db.VarChar(255)
+  leader_display_name               String?  @db.VarChar(255)
+  cost_percentage                   Int?
+  goal_estimate                     Int?
+  participant_estimate              Int?
+  fund_allocation_selections        String?  @db.Text
+  created_at                        DateTime @db.DateTime(0)
+  updated_at                        DateTime @db.DateTime(0)
+  description_updated_by_admin      Boolean? @default(false)
+  personal_message_updated_by_admin Boolean? @default(false)
+  why_donations_updated_by_admin    Boolean? @default(false)
+  settlement_receipt_message        String?  @db.VarChar(255)
+  primary_color                     String?  @db.VarChar(255)
+  secondary_color                   String?  @db.VarChar(255)
+}
+
+model fundraiser_contacts {
+  id            Int       @id @default(autoincrement())
+  fundraiser_id Int?
+  contact_id    Int?
+  contact_type  String?   @db.VarChar(255)
+  role          String?   @db.VarChar(255)
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([contact_id], map: "index_fundraiser_contacts_on_contact_id")
+  @@index([fundraiser_id], map: "index_fundraiser_contacts_on_fundraiser_id")
+}
+
+model fundraiser_defaults {
+  id               Int       @id @default(autoincrement())
+  activity         String?   @db.VarChar(255)
+  participant_goal Int?      @default(500)
+  why_donations    String?   @db.Text
+  description      String?   @db.Text
+  personal_message String?   @db.Text
+  approved         Boolean?  @default(false)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+}
+
+model fundraiser_financial_statements {
+  id                                                   Int      @id @default(autoincrement())
+  total_processing_fee_cents                           Int      @default(0)
+  total_online_donations_cents                         Int      @default(0)
+  total_online_donations_internal_processing_fee_cents Int      @default(0)
+  total_online_donations_coverage_amount_cents         Int      @default(0)
+  total_offline_donations_cents                        Int      @default(0)
+  total_app_fee_cents                                  Int      @default(0)
+  total_incentives_price_cents                         Int      @default(0)
+  fundraiser_id                                        Int
+  created_at                                           DateTime @db.DateTime(0)
+  updated_at                                           DateTime @db.DateTime(0)
+
+  @@index([fundraiser_id], map: "index_fundraiser_financial_statements_on_fundraiser_id")
+}
+
+model fundraiser_incentives {
+  id            Int       @id @default(autoincrement())
+  fundraiser_id Int?
+  incentive_id  Int?
+  image         String?   @db.VarChar(255)
+  store_type    String?   @db.VarChar(255)
+  status        String?   @default("active") @db.VarChar(255)
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([fundraiser_id], map: "index_fundraiser_incentives_on_fundraiser_id")
+  @@index([incentive_id], map: "index_fundraiser_incentives_on_incentive_id")
+}
+
+model fundraiser_regional_weekly_averages {
+  id                    Int       @id @default(autoincrement())
+  team_id               Int?
+  activity_type         String?   @db.VarChar(255)
+  week                  Int?
+  month_of_year         Int?
+  amount_cents          Int?
+  number_of_fundraisers Int?
+  invalidated_at        DateTime? @db.DateTime(0)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+}
+
+model fundraiser_resigns {
+  id                    Int       @id @default(autoincrement())
+  fundraiser_id         Int?
+  resigned_id           Int?
+  salesrep_id           Int?
+  marketing_campaign_id Int?
+  reinvite_sent_at      DateTime? @db.DateTime(0)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+  resign_source         String?   @db.VarChar(255)
+
+  @@index([fundraiser_id], map: "index_fundraiser_resigns_on_fundraiser_id")
+  @@index([marketing_campaign_id], map: "index_fundraiser_resigns_on_marketing_campaign_id")
+  @@index([resigned_id], map: "index_fundraiser_resigns_on_resigned_id")
+  @@index([salesrep_id], map: "index_fundraiser_resigns_on_salesrep_id")
+}
+
+model fundraiser_transfer_audits {
+  id            Int       @id @default(autoincrement())
+  transferor_id Int?
+  transferee_id Int?
+  fundraiser_id Int?
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([transferee_id], map: "index_fundraiser_transfer_audits_on_transferee_id")
+  @@index([transferor_id], map: "index_fundraiser_transfer_audits_on_transferor_id")
+}
+
+model fundraiser_uploads {
+  id            Int      @id @default(autoincrement())
+  fundraiser_id Int?
+  file_type     String?  @db.VarChar(255)
+  user_id       Int?
+  file          String?  @db.VarChar(255)
+  created_at    DateTime @db.DateTime(0)
+  updated_at    DateTime @db.DateTime(0)
+}
+
+model fundraiser_user_incentives {
+  id                 Int       @id @default(autoincrement())
+  fundraiser_id      Int?
+  incentive_id       Int?
+  fundraiser_user_id Int?
+  user_id            Int?
+  size               String?   @db.VarChar(255)
+  tier               Int?
+  store_type         String?   @db.VarChar(255)
+  created_at         DateTime? @db.DateTime(0)
+  updated_at         DateTime? @db.DateTime(0)
+
+  @@index([fundraiser_id], map: "index_fundraiser_user_incentives_on_fundraiser_id")
+  @@index([fundraiser_user_id], map: "index_fundraiser_user_incentives_on_fundraiser_user_id")
+  @@index([incentive_id], map: "index_fundraiser_user_incentives_on_incentive_id")
+  @@index([user_id], map: "index_fundraiser_user_incentives_on_user_id")
+}
+
+model fundraiser_users {
+  id                               Int       @id @default(autoincrement())
+  role                             String?   @db.VarChar(255)
+  created_at                       DateTime? @db.DateTime(0)
+  updated_at                       DateTime? @db.DateTime(0)
+  user_id                          Int?
+  fundraiser_id                    Int?
+  group_leader_id                  Int?
+  supporter_id                     Int?
+  join_code                        String?   @db.VarChar(255)
+  participant_id                   Int?
+  participant_quote                String?   @db.VarChar(255)
+  viewed                           Boolean?  @default(false)
+  deleted_at                       DateTime? @db.DateTime(0)
+  grade                            String?   @db.VarChar(255)
+  current_step                     String?   @db.VarChar(255)
+  hwho_steps                       String?   @db.Text
+  participant_group_person_list_id Int?
+
+  @@index([deleted_at], map: "index_fundraiser_users_on_deleted_at")
+  @@index([fundraiser_id], map: "index_fundraiser_users_on_fundraiser_id")
+  @@index([group_leader_id], map: "index_fundraiser_users_on_group_leader_id")
+  @@index([join_code], map: "index_fundraiser_users_on_join_code")
+  @@index([participant_group_person_list_id], map: "index_fundraiser_users_on_participant_group_person_list_id")
+  @@index([participant_id], map: "index_fundraiser_users_on_participant_id")
+  @@index([supporter_id], map: "index_fundraiser_users_on_supporter_id")
+  @@index([user_id], map: "index_fundraiser_users_on_user_id")
+}
+
+model fundraisers {
+  id                                          Int             @id @default(autoincrement())
+  short_id                                    String?         @unique(map: "index_fundraisers_on_short_id") @db.VarChar(10)
+  salesrep_id                                 Int?
+  original_salesrep_id                        Int?
+  commission_eligible_salesrep_id             Int?
+  account_manager_id                          Int?
+  fee_free_donation_salesrep_id               Int?
+  self_signup_id                              Int?
+  lead_id                                     Int?
+  marketing_campaign_id                       Int?
+  fundraiser_configuration_id                 Int?
+  name                                        String?         @db.VarChar(255)
+  description                                 String?         @db.Text
+  join_code                                   String?         @db.VarChar(255)
+  coach_join_code                             String?         @db.VarChar(255)
+  public_tin                                  Boolean?        @default(true)
+  start_date                                  DateTime?       @db.Date
+  end_date                                    DateTime?       @db.Date
+  group_id                                    Int?
+  goal                                        Int?
+  donation_minimum_cents                      Int?            @default(2000)
+  participant_goal                            Int?
+  personal_message                            String?         @db.Text
+  status                                      String?         @db.VarChar(255)
+  guid                                        String?         @db.VarChar(255)
+  created_at                                  DateTime?       @db.DateTime(0)
+  updated_at                                  DateTime?       @db.DateTime(0)
+  donation_level_1                            Int?
+  donation_level_2                            Int?
+  donation_level_3                            Int?
+  donation_level_4                            Int?
+  why_donations                               String?         @db.Text
+  donation_service_fee                        Float?          @default(0.018) @db.Float
+  sale_service_fee                            Float?          @default(0.055) @db.Float
+  team_size                                   Int?            @default(0)
+  organization_type_id                        Int?
+  terms_accepted                              Boolean         @default(false)
+  enable_newsletter_enrollments               Boolean?        @default(false)
+  referrer                                    String?         @default("") @db.VarChar(255)
+  extra_donations                             Int?
+  extra_supporters                            Int?
+  donate_url                                  String?         @db.VarChar(255)
+  description_head                            String?         @db.VarChar(255)
+  why_donations_head                          String?         @db.VarChar(255)
+  personal_message_head                       String?         @db.VarChar(255)
+  notes                                       String?         @db.Text
+  gp_call_datetime                            DateTime?       @db.DateTime(0)
+  check_issue_date                            DateTime?       @db.Date
+  fee_type                                    String?         @db.VarChar(255)
+  pay_adjust                                  Int?            @default(0)
+  bill_type                                   String?         @db.VarChar(255)
+  kyc_type                                    String?         @db.VarChar(255)
+  verified_kyc_override                       Boolean?        @default(false)
+  manual_activation_required                  Boolean?        @default(false)
+  podio_item                                  Int?
+  payable_name                                String?         @db.VarChar(255)
+  settlement_date                             DateTime?       @db.Date
+  attention_to                                String?         @db.VarChar(255)
+  hw_ho_datetime                              DateTime?       @db.DateTime(0)
+  ko_datetime                                 DateTime?       @db.DateTime(0)
+  email_bg_color                              String?         @db.VarChar(255)
+  email_prim_color                            String?         @db.VarChar(255)
+  email_sec_color                             String?         @db.VarChar(255)
+  email_logo                                  String?         @db.VarChar(255)
+  donation_level_5                            Int?
+  donation_level_6                            Int?
+  adjust_type                                 String?         @db.VarChar(255)
+  receipt_text                                String?         @db.Text
+  inc_logo                                    String?         @db.VarChar(255)
+  inc_logo_script                             String?         @db.VarChar(255)
+  inc_logo_prim_color                         String?         @db.VarChar(255)
+  inc_logo_sec_color                          String?         @db.VarChar(255)
+  inc_store                                   Boolean?        @default(true)
+  fan_store                                   Boolean?        @default(true)
+  coach_inc                                   Boolean?        @default(false)
+  hide_supporters                             Boolean         @default(false)
+  gp_status                                   String?         @default("pending") @db.VarChar(255)
+  gp_notes                                    String?         @db.Text
+  gp_reasons_complete                         Boolean         @default(false)
+  gp_status_updated_at                        DateTime?       @db.DateTime(0)
+  participant_grouping                        String?         @default("disabled") @db.VarChar(255)
+  sales_message                               String?         @db.Text
+  inc_status                                  String?         @default("pending") @db.VarChar(255)
+  inc_status_updated_at                       DateTime?       @db.DateTime(0)
+  inc_tracking                                String?         @db.VarChar(255)
+  inc_cost                                    Int?
+  coach_inc_status                            String?         @default("pending") @db.VarChar(255)
+  coach_inc_tracking                          String?         @db.VarChar(255)
+  coach_inc_status_updated_at                 DateTime?       @db.DateTime(0)
+  slug                                        String?         @unique(map: "index_fundraisers_on_slug") @db.VarChar(255)
+  customized_slug                             String?         @db.VarChar(255)
+  settlement_method                           String?         @db.VarChar(255)
+  credit_card_processor                       String?         @db.VarChar(255)
+  snap_fee_cents                              Int?
+  charge_back_fee_cents                       Int?
+  apply_minimum                               Boolean?        @default(true)
+  time_zone                                   String?         @db.VarChar(255)
+  total_raised_cents                          Int?
+  total_donations_cents                       Int?
+  net_purchases_cents                         Int?
+  net_raised_cents                            Int?
+  total_purchases_cost_cents                  Int?
+  total_incentives_cost_cents                 Int?
+  total_incentives_price_cents                Int?
+  total_incentives_unit_count                 Int?
+  first_donation_at                           DateTime?       @db.DateTime(0)
+  participation_int                           Int?
+  has_store                                   Boolean?        @default(false)
+  store_live                                  Boolean         @default(false)
+  hidden                                      Boolean         @default(false)
+  guarantee_tracking_cents                    Int?
+  post_finalization_charge_back_count         Int             @default(0)
+  feature_flags                               String?         @db.VarChar(255)
+  shop_store_gid                              String?         @db.VarChar(255)
+  custom_org_display_name                     String?         @db.VarChar(255)
+  participation_calculation_strategy          String?         @db.VarChar(255)
+  cc_fee_payer                                String?         @db.VarChar(255)
+  cc_fee_covered                              Boolean?        @default(true)
+  is_remote                                   Boolean?
+  guardian_email_required                     Boolean?
+  settlement_confirmation_status              String?         @db.VarChar(255)
+  settlement_confirmation_notes               String?         @db.Text
+  inc_logo_image_h                            String?         @db.VarChar(255)
+  inc_logo_image_e                            String?         @db.VarChar(255)
+  inc_logo_image_d                            String?         @db.VarChar(255)
+  inc_logo_image_w                            String?         @db.VarChar(255)
+  logo                                        String?         @db.VarChar(255)
+  message                                     String?         @db.Text
+  marketing_initiative_source                 String?         @db.Text
+  marketing_initiative_amount                 Float?          @db.Float
+  adjust_commission_on_marketing_contribution Boolean?        @default(false)
+  marketing_initiative_description            String?         @db.Text
+  advance_amount_cents                        Int?            @default(0)
+  advance_created_at                          DateTime?       @db.DateTime(0)
+  advance_amount_recouped                     Int?            @default(0)
+  advance_destination                         String?         @db.VarChar(255)
+  advance_wallet_id                           String?         @db.VarChar(255)
+  advance_account_id                          String?         @db.VarChar(255)
+  team_selling_am_campaign                    Boolean?
+  store_url                                   String?         @db.VarChar(255)
+  manual_advance_amount_cents                 Int?            @default(0)
+  otl_incentives                              otl_incentives?
+  sms_reminders                               sms_reminders[]
+
+  @@index([name], map: "fulltext_index_fundraisers_on_name")
+  @@index([account_manager_id], map: "index_fundraisers_on_account_manager_id")
+  @@index([coach_join_code], map: "index_fundraisers_on_coach_join_code")
+  @@index([commission_eligible_salesrep_id], map: "index_fundraisers_on_commission_eligible_salesrep_id")
+  @@index([customized_slug], map: "index_fundraisers_on_customized_slug")
+  @@index([fee_free_donation_salesrep_id], map: "index_fundraisers_on_fee_free_donation_salesrep_id")
+  @@index([fundraiser_configuration_id], map: "index_fundraisers_on_fundraiser_configuration_id")
+  @@index([group_id], map: "index_fundraisers_on_group_id")
+  @@index([join_code], map: "index_fundraisers_on_join_code")
+  @@index([kyc_type], map: "index_fundraisers_on_kyc_type")
+  @@index([lead_id], map: "index_fundraisers_on_lead_id")
+  @@index([marketing_campaign_id], map: "index_fundraisers_on_marketing_campaign_id")
+  @@index([organization_type_id], map: "index_fundraisers_on_organization_type_id")
+  @@index([original_salesrep_id], map: "index_fundraisers_on_original_salesrep_id")
+  @@index([salesrep_id], map: "index_fundraisers_on_salesrep_id")
+  @@index([self_signup_id], map: "index_fundraisers_on_self_signup_id")
+  @@index([status], map: "index_fundraisers_on_status")
+}
+
+model gallery_items {
+  id                          Int       @id @default(autoincrement())
+  fundraiser_configuration_id Int?
+  media_type                  String?   @db.VarChar(255)
+  image                       String?   @db.VarChar(255)
+  url                         String?   @db.VarChar(255)
+  created_at                  DateTime? @db.DateTime(0)
+  updated_at                  DateTime? @db.DateTime(0)
+  fundraiser_id               Int?
+
+  @@index([fundraiser_configuration_id], map: "index_gallery_items_on_fundraiser_configuration_id")
+  @@index([fundraiser_id], map: "index_gallery_items_on_fundraiser_id")
+}
+
+model game_weeks {
+  id                Int       @id @default(autoincrement())
+  meeting_date      DateTime? @db.Date
+  organization      String?   @db.VarChar(255)
+  objective         String?   @db.VarChar(255)
+  contact           String?   @db.VarChar(255)
+  result            String?   @db.VarChar(255)
+  notes             String?   @db.Text
+  salesrep_id       Int?
+  admin_notes       String?   @db.Text
+  reviewed_at       DateTime? @db.DateTime(0)
+  result_updated_at DateTime? @db.DateTime(0)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+  activity          String?   @db.VarChar(255)
+}
+
+model group_contacts {
+  id           Int       @id @default(autoincrement())
+  contact_type String?   @db.VarChar(255)
+  role         String?   @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  group_id     Int?
+  contact_id   Int?
+
+  @@index([contact_id], map: "index_group_contacts_on_contact_id")
+  @@index([group_id], map: "index_group_contacts_on_group_id")
+}
+
+model groups {
+  id                Int       @id @default(autoincrement())
+  name              String?   @db.VarChar(255)
+  group_type        String?   @db.VarChar(255)
+  tier              String?   @db.VarChar(255)
+  age               String?   @db.VarChar(255)
+  gender            String?   @db.VarChar(255)
+  activity          String?   @db.VarChar(255)
+  organization_id   Int?
+  brand_id          Int?
+  team_size         Int?
+  season_start_date DateTime? @db.Date
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([brand_id], map: "index_groups_on_brand_id")
+  @@index([organization_id], map: "index_groups_on_organization_id")
+}
+
+model hubspot_ambitions_companies {
+  id                       String    @id @db.VarChar(255)
+  name                     String?   @db.VarChar(255)
+  createdate               DateTime? @db.DateTime(0)
+  first_deal_created_date  DateTime? @db.DateTime(0)
+  hs_lastmodifieddate      DateTime? @db.DateTime(0)
+  hs_object_id             String?   @db.VarChar(255)
+  first_contact_createdate DateTime? @db.DateTime(0)
+  num_associated_contacts  Int?
+  total_money_raised       String?   @db.VarChar(255)
+  hs_created_by_user_id    Int?
+}
+
+model hubspot_ambitions_contacts {
+  id                                                      String    @id @db.VarChar(255)
+  user_email                                              String?   @db.VarChar(255)
+  hs_last_sales_activity_timestamp                        DateTime? @db.DateTime(0)
+  num_associated_deals                                    String?   @db.VarChar(255)
+  hs_lifecyclestage_customer_date                         DateTime? @db.DateTime(0)
+  first_deal_created_date                                 DateTime? @db.DateTime(0)
+  recent_deal_close_date                                  DateTime? @db.DateTime(0)
+  hs_time_between_contact_creation_and_deal_close         String?   @db.VarChar(255)
+  hs_time_between_contact_creation_and_deal_creation      String?   @db.VarChar(255)
+  createdate                                              DateTime? @db.DateTime(0)
+  num_notes                                               Int?
+  hs_time_to_move_from_salesqualifiedlead_to_customer     Int?
+  hs_time_to_move_from_marketingqualifiedlead_to_customer BigInt?
+  hs_sequences_enrolled_count                             Int?
+  num_contacted_notes                                     Int?
+  first_contact_createdate                                DateTime? @db.DateTime(0)
+  num_associated_contacts                                 Int?
+  total_money_raised                                      String?   @db.VarChar(255)
+  firstname                                               String?   @db.VarChar(255)
+  lastname                                                String?   @db.VarChar(255)
+  hubspot_owner_id                                        String?   @db.VarChar(255)
+  territory___primary_or_secondary                        String?   @db.VarChar(255)
+  rep_ref                                                 String?   @db.VarChar(255)
+  am_referral                                             String?   @db.VarChar(255)
+  am_referral___referrer_name                             String?   @db.VarChar(255)
+  rep_ref_name                                            String?   @db.VarChar(255)
+  am_referral___date_of_submission                        DateTime? @db.DateTime(0)
+  referral_date                                           DateTime? @db.DateTime(0)
+  first_rep_engagement_date                               DateTime? @db.DateTime(0)
+  hubspot_team_id                                         String?   @db.VarChar(255)
+}
+
+model hubspot_ambitions_deals {
+  id                                            String    @id @db.VarChar(255)
+  snap_raise_fundraiser_id                      String?   @db.VarChar(255)
+  dealtype                                      String?   @db.VarChar(255)
+  hubspot_owner_id                              Int?
+  team_selling___round_robin_handoff            String?   @db.VarChar(255)
+  h_f___date_of_handoff                         DateTime? @db.DateTime(0)
+  h_f___deal_handback_reason                    String?   @db.VarChar(255)
+  dealstage                                     String?   @db.VarChar(255)
+  h_f___reconfirmed_sale__hunter_handback_to_am String?   @db.VarChar(255)
+  h_f___reconfirmed_sale___hunter_handback_date DateTime? @db.DateTime(0)
+  active_with_funds_                            String?   @db.VarChar(255)
+  date_entered_stage_campaign_dates_se          DateTime? @db.DateTime(0)
+  deal_first_entered_stage___closed_lost        DateTime? @db.DateTime(0)
+  deal_first_entered_stage___closed_won         DateTime? @db.DateTime(0)
+  activity_type                                 String?   @db.VarChar(255)
+  number_of_1_1_emails                          Int?
+  number_of_inbound_calls                       Int?
+  number_of_outbound_calls                      Int?
+  number_of_text_messages_logged                Int?
+  number_of_meetings_demos                      Int?
+  user_preload_count                            Int?
+  preload_email_count                           Int?
+  num_of_participants                           Int?
+  sales_rep_lifetime_raised                     String?   @db.VarChar(255)
+  company_name                                  String?   @db.VarChar(255)
+  contact_email_address                         String?   @db.VarChar(255)
+  snap__os___contract_date                      String?   @db.VarChar(255)
+  snap__os___contracts_completed_attached       String?   @db.VarChar(255)
+  snap_os___upsell_opportunity                  String?   @db.VarChar(255)
+  snap__os___auto_renewal                       String?   @db.VarChar(255)
+  team_size                                     String?   @db.VarChar(255)
+  delivered_email_count                         String?   @db.VarChar(255)
+  territory___primary_or_secondary              String?   @db.VarChar(255)
+  createdAt                                     DateTime? @db.DateTime(0)
+  updatedAt                                     DateTime? @db.DateTime(0)
+  fundraiser_url                                String?   @db.VarChar(255)
+  account_manager                               String?   @db.VarChar(255)
+  estimated_fundraiser_date                     DateTime? @db.DateTime(0)
+  h_f___date_of_handback                        DateTime? @db.DateTime(0)
+  territory                                     String?   @db.VarChar(255)
+  date_entered_stage_campaign_dates_set         DateTime? @db.DateTime(0)
+  pipeline                                      String?   @db.VarChar(255)
+  fundraiser_id                                 Int?
+  hubspot_owner_email                           String?   @db.VarChar(255)
+  company_create_date                           DateTime? @db.DateTime(0)
+  number_of_date_changes                        Int?
+  deal_call_score                               Int?
+  deal_email_score                              Int?
+  deal_meeting_score                            Int?
+  deal_note_score                               Int?
+  deal_call_completed_score                     Int?
+  deal_meeting_completed_score                  Int?
+  deal_demo_score                               Int?
+  demo_score                                    Int?
+
+  @@index([fundraiser_id], map: "index_hubspot_ambition_deals_on_fundraiser_id")
+  @@index([snap_raise_fundraiser_id], map: "index_hubspot_ambition_deals_on_snap_raise_fundraiser_id")
+}
+
+model incentives {
+  id                     Int       @id @default(autoincrement())
+  external_id            String?   @db.VarChar(255)
+  name                   String?   @db.VarChar(255)
+  color                  String?   @db.VarChar(255)
+  image                  String?   @db.VarChar(255)
+  image_dynamic          Boolean?  @default(false)
+  tier                   Int?
+  sizes                  String?   @db.VarChar(255)
+  design_dimensions      String?   @db.VarChar(255)
+  price_cents            Int?
+  cost_cents             Int?
+  net_earned_percentage  Float?    @db.Float
+  status                 String?   @db.VarChar(255)
+  store_types            String?   @db.VarChar(255)
+  assignment_type        String?   @default("automatic") @db.VarChar(255)
+  display_order          Int?
+  purchase_limit         Int?
+  updated_at             DateTime? @db.DateTime(0)
+  created_at             DateTime? @db.DateTime(0)
+  otk_type               String?   @db.VarChar(255)
+  product_type           String?   @db.VarChar(255)
+  netsuite_item_mappings String?   @db.VarChar(255)
+  fitting                String?   @default("unisex") @db.VarChar(255)
+}
+
+model inventories {
+  id               Int       @id @default(autoincrement())
+  accountable_id   Int?
+  accountable_type String?   @db.VarChar(255)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+
+  @@index([accountable_type, accountable_id], map: "index_inventories_on_accountable_type_and_accountable_id")
+}
+
+model inventory_adjustments {
+  id                Int       @id @default(autoincrement())
+  inventory_id      Int?
+  creator_id        Int?
+  order_id          Int?
+  purchase_order_id Int?
+  size              String?   @db.VarChar(255)
+  amount            Int?
+  adjust_type       String?   @db.VarChar(255)
+  notes             String?   @db.Text
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([creator_id], map: "index_inventory_adjustments_on_creator_id")
+  @@index([inventory_id], map: "index_inventory_adjustments_on_inventory_id")
+  @@index([order_id], map: "index_inventory_adjustments_on_order_id")
+  @@index([purchase_order_id], map: "index_inventory_adjustments_on_purchase_order_id")
+  @@index([size], map: "index_inventory_adjustments_on_size")
+}
+
+model inventory_locations {
+  id             Int      @id @default(autoincrement())
+  location_id    Int?
+  orderable_type String?  @db.VarChar(255)
+  orderable_id   Int?
+  size           String?  @db.VarChar(255)
+  created_at     DateTime @db.DateTime(0)
+  updated_at     DateTime @db.DateTime(0)
+
+  @@index([orderable_type, orderable_id], map: "index_inventory_locations_on_orderable_type_and_orderable_id")
+}
+
+model kyc_documents {
+  id                Int      @id @default(autoincrement())
+  filename          String?  @db.VarChar(255)
+  original_filename String?  @db.VarChar(255)
+  status            String?  @db.VarChar(255)
+  wepay_account_id  Int?
+  category          String?  @db.VarChar(255)
+  uploader_id       Int?
+  write_id          String?  @db.VarChar(255)
+  read_id           String?  @db.VarChar(255)
+  created_at        DateTime @db.DateTime(0)
+  updated_at        DateTime @db.DateTime(0)
+  fundraiser_id     Int?
+
+  @@index([fundraiser_id], map: "index_kyc_documents_on_fundraiser_id")
+  @@index([uploader_id], map: "index_kyc_documents_on_uploader_id")
+  @@index([wepay_account_id], map: "index_kyc_documents_on_wepay_account_id")
+}
+
+model kyc_submissions {
+  id                          Int       @id @default(autoincrement())
+  creator_id                  Int?
+  wepay_account_id            Int?
+  kyc_type                    String?   @db.VarChar(255)
+  first_name                  String?   @db.VarChar(255)
+  last_name                   String?   @db.VarChar(255)
+  phone_number                String?   @db.VarChar(255)
+  birth_date                  String?   @db.VarChar(255)
+  email                       String?   @db.VarChar(255)
+  organization_name           String?   @db.VarChar(255)
+  organization_ein            String?   @db.VarChar(255)
+  organization_description    String?   @db.VarChar(255)
+  organization_url            String?   @db.VarChar(255)
+  organization_formation_year Int?      @db.SmallInt
+  organization_street         String?   @db.VarChar(255)
+  organization_city           String?   @db.VarChar(255)
+  organization_region         String?   @db.VarChar(255)
+  organization_country        String?   @db.VarChar(255)
+  organization_zip            String?   @db.VarChar(255)
+  street                      String?   @db.VarChar(255)
+  city                        String?   @db.VarChar(255)
+  region                      String?   @db.VarChar(255)
+  country                     String?   @db.VarChar(255)
+  zip                         String?   @db.VarChar(255)
+  creation_request            String?   @db.Text
+  authorization_response      String?   @db.Text
+  deleted_at                  DateTime? @db.DateTime(0)
+  created_at                  DateTime? @db.DateTime(0)
+  updated_at                  DateTime? @db.DateTime(0)
+
+  @@index([creator_id], map: "index_kyc_submissions_on_creator_id")
+  @@index([wepay_account_id], map: "index_kyc_submissions_on_wepay_account_id")
+}
+
+model landing_faqs {
+  id         Int       @id @default(autoincrement())
+  question   String?   @db.VarChar(255)
+  category   String?   @db.VarChar(255)
+  answer     String?   @db.Text
+  image      String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model leads {
+  id                                 Int       @id @default(autoincrement())
+  wepay_account_id                   Int?
+  name                               String?   @db.VarChar(255)
+  lead_type                          String?   @db.VarChar(255)
+  kyc_type                           String?   @db.VarChar(255)
+  status                             String?   @db.VarChar(255)
+  hotness                            Int       @default(0)
+  activation_status                  String?   @db.VarChar(255)
+  call_status                        String?   @db.VarChar(255)
+  lead_origin_type                   String?   @db.VarChar(255)
+  lead_origin_id                     Int?
+  salesrep_reported_origin           String?   @db.VarChar(255)
+  salesrep_id                        Int?
+  shop_open_date                     DateTime? @db.DateTime(0)
+  snap_shop                          Boolean?
+  inc_store                          Boolean?  @default(true)
+  fan_store                          Boolean?  @default(true)
+  coach_inc                          Boolean?
+  fundraiser_configuration_id        Int?
+  inc_logo                           String?   @db.VarChar(255)
+  inc_logo_script                    String?   @db.VarChar(255)
+  inc_logo_prim_color                String?   @db.VarChar(255)
+  inc_logo_sec_color                 String?   @db.VarChar(255)
+  claimer_id                         Int?
+  claimed_at                         DateTime? @db.DateTime(0)
+  transferor_id                      Int?
+  transferee_id                      Int?
+  transferred_at                     DateTime? @db.DateTime(0)
+  contact_id                         Int?
+  referrer_id                        Int?
+  organization_id                    Int?
+  organization_name                  String?   @db.VarChar(255)
+  activity_type                      String?   @db.VarChar(255)
+  external_id                        String?   @db.VarChar(255)
+  rejection_reason                   String?   @db.VarChar(255)
+  rejected_at                        DateTime? @db.DateTime(0)
+  restoration_reason                 String?   @db.VarChar(255)
+  restored_at                        DateTime? @db.DateTime(0)
+  activated_at                       DateTime? @db.DateTime(0)
+  customer_onboarding_invite_sent_at DateTime? @db.DateTime(0)
+  notes                              String?   @db.Text
+  deleted_at                         DateTime? @db.DateTime(0)
+  created_at                         DateTime? @db.DateTime(0)
+  updated_at                         DateTime? @db.DateTime(0)
+  dates_resign_sent_at               String?   @db.Text
+  bypass_initial_meeting             Boolean?  @default(false)
+  lead_completed_date                DateTime? @db.DateTime(0)
+  group_size                         Int?
+  tier                               String?   @db.VarChar(255)
+  age                                String?   @db.VarChar(255)
+  group_type                         String?   @db.VarChar(255)
+  gender                             String?   @db.VarChar(255)
+  support_requested                  Boolean?
+  tentative_launch_date              DateTime? @db.Date
+  guarantee_inquiry_response         Boolean?
+  guarantee_inquiry_response_at      DateTime? @db.DateTime(0)
+  guarantee_inquiry_sent_at          DateTime? @db.DateTime(0)
+  is_remote                          Boolean?
+
+  @@index([claimer_id], map: "index_leads_on_claimer_id")
+  @@index([contact_id], map: "index_leads_on_contact_id")
+  @@index([external_id], map: "index_leads_on_external_id")
+  @@index([fundraiser_configuration_id], map: "index_leads_on_fundraiser_configuration_id")
+  @@index([kyc_type], map: "index_leads_on_kyc_type")
+  @@index([lead_origin_type, lead_origin_id], map: "index_leads_on_lead_origin_type_and_lead_origin_id")
+  @@index([organization_id], map: "index_leads_on_organization_id")
+  @@index([referrer_id], map: "index_leads_on_referrer_id")
+  @@index([salesrep_id], map: "index_leads_on_salesrep_id")
+  @@index([salesrep_reported_origin], map: "index_leads_on_salesrep_reported_origin")
+  @@index([transferee_id], map: "index_leads_on_transferee_id")
+  @@index([transferor_id], map: "index_leads_on_transferor_id")
+  @@index([wepay_account_id], map: "index_leads_on_wepay_account_id")
+}
+
+model line_items {
+  id                   Int      @id @default(autoincrement())
+  purchasable_type     String?  @db.VarChar(255)
+  purchasable_id       Int?
+  purchase_id          Int?
+  quantity             Int?
+  price_cents          Int?     @default(0)
+  cost_cents           Int?     @default(0)
+  int_price_cents      Int?     @default(0)
+  net_earned_cents     Int?     @default(0)
+  size                 String?  @db.VarChar(255)
+  logo_template        String?  @db.VarChar(255)
+  logo_script          String?  @db.VarChar(255)
+  logo_primary_color   String?  @db.VarChar(255)
+  logo_secondary_color String?  @db.VarChar(255)
+  created_at           DateTime @db.DateTime(0)
+  updated_at           DateTime @db.DateTime(0)
+
+  @@index([purchasable_type, purchasable_id], map: "index_line_items_on_purchasable_type_and_purchasable_id")
+  @@index([purchase_id], map: "index_line_items_on_purchase_id")
+}
+
+model links {
+  id            Int       @id @default(autoincrement())
+  url           String?   @db.VarChar(255)
+  image         String?   @db.VarChar(255)
+  linkable_type String?   @db.VarChar(255)
+  linkable_id   Int?
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([linkable_id], map: "index_links_on_linkable_id")
+}
+
+model locations {
+  id         Int      @id @default(autoincrement())
+  rack       Int?
+  shelf      Int?
+  bin        Int?
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model lookup_data_territories {
+  id                       Int     @id @default(autoincrement())
+  zip                      String? @db.VarChar(255)
+  encloding_zip            String? @db.VarChar(255)
+  state                    String? @db.VarChar(255)
+  type_of                  String? @db.VarChar(255)
+  maptitude_territory_name String? @db.VarChar(255)
+  territory_name           String? @db.VarChar(255)
+  sales_rep                String? @db.VarChar(255)
+  rep_email                String? @db.VarChar(255)
+  primary_vs_secondary     String? @db.VarChar(255)
+
+  @@index([zip], map: "index_lookup_data_territories_on_zip")
+}
+
+model marketing_campaigns {
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(255)
+  campaign_type String?   @db.VarChar(255)
+  status        String?   @db.VarChar(255)
+  notes         String?   @db.Text
+  start_date    DateTime? @db.Date
+  end_date      DateTime? @db.Date
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+  keywords      String?   @db.VarChar(255)
+  adgroup       String?   @db.VarChar(255)
+  campaign      String?   @db.VarChar(255)
+  content       String?   @db.VarChar(255)
+  medium        String?   @db.VarChar(255)
+  source        String?   @db.VarChar(255)
+  term          String?   @db.VarChar(255)
+}
+
+model matching_companies {
+  id                         Int      @id @default(autoincrement())
+  name                       String?  @db.VarChar(255)
+  matching_url               String?  @db.VarChar(255)
+  status                     String?  @db.VarChar(255)
+  source                     String?  @db.VarChar(255)
+  source_id                  String?  @db.VarChar(255)
+  company_phone              String?  @db.VarChar(255)
+  matching_guide             String?  @db.VarChar(255)
+  matching_service_used      String?  @db.VarChar(255)
+  ratio_matched_basis_points Int?
+  min_amount_cents           Int?
+  max_amount_cents           Int?
+  match_method               String?  @db.VarChar(255)
+  required_verifying_parties String?  @db.VarChar(255)
+  matching_support_email     String?  @db.VarChar(255)
+  matching_support_name      String?  @db.VarChar(255)
+  matching_support_phone     String?  @db.VarChar(255)
+  created_at                 DateTime @db.DateTime(0)
+  updated_at                 DateTime @db.DateTime(0)
+}
+
+model matching_company_aliases {
+  id                  Int      @id @default(autoincrement())
+  name                String?  @db.VarChar(255)
+  matching_company_id Int?
+  created_at          DateTime @db.DateTime(0)
+  updated_at          DateTime @db.DateTime(0)
+
+  @@index([matching_company_id], map: "index_matching_company_aliases_on_matching_company_id")
+}
+
+model matching_company_donations {
+  id                        Int      @id @default(autoincrement())
+  donation_id               Int?
+  matching_company_id       Int?
+  matching_company_alias_id Int?
+  status                    String?  @db.VarChar(255)
+  created_at                DateTime @db.DateTime(0)
+  updated_at                DateTime @db.DateTime(0)
+
+  @@index([donation_id], map: "index_matching_company_donations_on_donation_id")
+  @@index([matching_company_alias_id], map: "index_matching_company_donations_on_matching_company_alias_id")
+  @@index([matching_company_id], map: "index_matching_company_donations_on_matching_company_id")
+}
+
+model mentions {
+  id               Int       @id @default(autoincrement())
+  display_text     String?   @db.VarChar(255)
+  substitution_key String?   @db.VarChar(255)
+  notification_id  Int?
+  mentionable_id   Int?
+  mentionable_type String?   @db.VarChar(255)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+
+  @@index([mentionable_type, mentionable_id], map: "index_mentions_on_mentionable_type_and_mentionable_id")
+  @@index([notification_id], map: "index_mentions_on_notification_id")
+}
+
+model merchandises {
+  id                Int       @id @default(autoincrement())
+  external_id       String?   @db.VarChar(255)
+  name              String?   @db.VarChar(255)
+  color             String?   @db.VarChar(255)
+  image             String?   @db.VarChar(255)
+  sizes             String?   @db.VarChar(255)
+  design_dimensions String?   @db.VarChar(255)
+  price_cents       Int?
+  cost_cents        Int?
+  status            String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+}
+
+model micropages {
+  id                     Int       @id @default(autoincrement())
+  access_code            String?   @unique(map: "index_micropages_on_access_code") @db.VarChar(255)
+  parameters             String?   @db.Text
+  generator_class_name   String?   @db.VarChar(255)
+  expiration_strategy    String?   @db.VarChar(255)
+  expiration_at          DateTime? @db.DateTime(0)
+  expiration_usage       Int?      @default(0)
+  expiration_usage_limit Int?      @default(0)
+  description            String?   @db.VarChar(255)
+  created_at             DateTime? @db.DateTime(0)
+  updated_at             DateTime? @db.DateTime(0)
+}
+
+model mobile_apps {
+  id         Int       @id @default(autoincrement())
+  app_id     String?   @db.VarChar(255)
+  platform   Int?
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model mobile_versions {
+  id              Int       @id @default(autoincrement())
+  major           Int?
+  minor           Int?
+  patch           Int?
+  min_api_version String?   @default("1.0.0") @db.VarChar(255)
+  release_notes   String?   @db.Text
+  released_at     DateTime? @db.DateTime(0)
+  deprecated_at   DateTime? @db.DateTime(0)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  mobile_app_id   Int?
+
+  @@unique([patch, minor, major, mobile_app_id], map: "unique_mobile_app_version")
+  @@index([mobile_app_id], map: "index_mobile_versions_on_mobile_app_id")
+}
+
+model notes {
+  id            Int       @id @default(autoincrement())
+  text          String?   @db.Text
+  noteable_id   Int?
+  noteable_type String?   @db.VarChar(255)
+  user_id       Int?
+  title         String?   @db.VarChar(255)
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+
+  @@index([noteable_type, noteable_id], map: "index_notes_on_noteable_type_and_noteable_id")
+  @@index([user_id], map: "index_notes_on_user_id")
+}
+
+model notification_preference_options {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique(map: "index_notification_preference_options_on_name") @db.VarChar(255)
+  display_name String   @db.VarChar(255)
+  created_at   DateTime @db.DateTime(0)
+  updated_at   DateTime @db.DateTime(0)
+}
+
+model notification_preferences {
+  id                Int      @id @default(autoincrement())
+  contextable_type  String?  @db.VarChar(255)
+  contextable_id    Int?
+  notification_type String?  @db.VarChar(255)
+  status            String?  @db.VarChar(255)
+  recipient_id      Int?
+  created_at        DateTime @db.DateTime(0)
+  updated_at        DateTime @db.DateTime(0)
+
+  @@index([contextable_type, contextable_id], map: "index_notification_preferences_on_contextable")
+  @@index([notification_type], map: "index_notification_preferences_on_notification_type")
+  @@index([recipient_id], map: "index_notification_preferences_on_recipient_id")
+  @@index([status], map: "index_notification_preferences_on_status")
+}
+
+model notifications {
+  id                Int       @id @default(autoincrement())
+  author_id         Int?
+  notification_type String?   @db.VarChar(255)
+  content           String?   @db.Text
+  comments          String?   @db.Text
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([author_id], map: "index_notifications_on_author_id")
+  @@index([notification_type], map: "index_notifications_on_notification_type")
+}
+
+model oauth_access_grants {
+  id                Int       @id @default(autoincrement())
+  resource_owner_id Int
+  application_id    Int
+  token             String    @unique(map: "index_oauth_access_grants_on_token") @db.VarChar(255)
+  expires_in        Int
+  redirect_uri      String    @db.Text
+  created_at        DateTime  @db.DateTime(0)
+  revoked_at        DateTime? @db.DateTime(0)
+  scopes            String?   @db.VarChar(255)
+}
+
+model oauth_access_tokens {
+  id                Int       @id @default(autoincrement())
+  resource_owner_id Int?
+  application_id    Int?
+  token             String    @db.Text
+  hashed_token      String    @unique(map: "index_oauth_access_tokens_on_hashed_token") @db.VarChar(64)
+  refresh_token     String?   @unique(map: "index_oauth_access_tokens_on_refresh_token") @db.VarChar(255)
+  expires_in        Int?
+  revoked_at        DateTime? @db.DateTime(0)
+  created_at        DateTime  @db.DateTime(0)
+  scopes            String?   @db.VarChar(255)
+
+  @@index([resource_owner_id], map: "index_oauth_access_tokens_on_resource_owner_id")
+}
+
+model oauth_applications {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  uid          String    @unique(map: "index_oauth_applications_on_uid") @db.VarChar(255)
+  secret       String    @db.VarChar(255)
+  redirect_uri String    @db.Text
+  scopes       String    @default("") @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  confidential Boolean   @default(true)
+}
+
+model order_designs {
+  id              Int       @id @default(autoincrement())
+  order_id        Int?
+  image           String?   @db.VarChar(255)
+  dimension       String?   @db.VarChar(255)
+  quantity        Int?
+  logo            String?   @db.VarChar(255)
+  logo_script     String?   @db.VarChar(255)
+  logo_prim_color String?   @db.VarChar(255)
+  logo_sec_color  String?   @db.VarChar(255)
+  notes           String?   @db.Text
+  printed_at      DateTime? @db.DateTime(0)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+
+  @@index([order_id], map: "index_order_designs_on_order_id")
+}
+
+model order_items {
+  id                           Int       @id @default(autoincrement())
+  order_id                     Int?
+  orderable_id                 Int?
+  orderable_type               String?   @db.VarChar(255)
+  fundraiser_user_incentive_id Int?
+  user_id                      Int?
+  fundraiser_user_id           Int?
+  size                         String?   @db.VarChar(255)
+  int_price_cents              Int?
+  price_cents                  Int?
+  cost_cents                   Int?
+  notes                        String?   @db.Text
+  deleted_at                   DateTime? @db.DateTime(0)
+  created_at                   DateTime? @db.DateTime(0)
+  updated_at                   DateTime? @db.DateTime(0)
+  fulfilled_by                 String?   @db.VarChar(255)
+  fulfilled_at                 DateTime? @db.DateTime(0)
+  fulfillment_order_id         String?   @db.VarChar(255)
+  fulfillment_shipping_id      String?   @db.VarChar(255)
+  order_shipment_id            Int?
+
+  @@index([fundraiser_user_id], map: "index_order_items_on_fundraiser_user_id")
+  @@index([fundraiser_user_incentive_id], map: "index_order_items_on_fundraiser_user_incentive_id")
+  @@index([order_id], map: "index_order_items_on_order_id")
+  @@index([orderable_type, orderable_id], map: "index_order_items_on_orderable_type_and_orderable_id")
+  @@index([user_id], map: "index_order_items_on_user_id")
+}
+
+model order_shipments {
+  id                Int       @id @default(autoincrement())
+  creator_id        Int?
+  order_id          Int?
+  shipment_batch_id Int?
+  external_id       String?   @db.VarChar(255)
+  label_datetime    DateTime? @db.DateTime(0)
+  notes             String?   @db.Text
+  status            String?   @db.VarChar(255)
+  refund_status     String?   @db.VarChar(255)
+  tracking_code     String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+  fulfilled_by      String?   @db.VarChar(255)
+
+  @@index([creator_id], map: "index_order_shipments_on_creator_id")
+  @@index([external_id], map: "index_order_shipments_on_external_id")
+  @@index([order_id], map: "index_order_shipments_on_order_id")
+  @@index([shipment_batch_id], map: "index_order_shipments_on_shipment_batch_id")
+}
+
+model orders {
+  id                  Int       @id @default(autoincrement())
+  creator_id          Int?
+  assembler_id        Int?
+  designer_id         Int?
+  fundraiser_id       Int?
+  parent_id           Int?
+  shipping_address_id Int?
+  logo                String?   @db.VarChar(255)
+  logo_script         String?   @db.VarChar(255)
+  logo_prim_color     String?   @db.VarChar(255)
+  logo_sec_color      String?   @db.VarChar(255)
+  reason              String?   @db.VarChar(255)
+  status              String?   @db.VarChar(255)
+  notes               String?   @db.Text
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+  fulfilled_by        String?   @default("snap") @db.VarChar(255)
+  fulfill_otk_by      String?   @db.VarChar(255)
+
+  @@index([assembler_id], map: "index_orders_on_assembler_id")
+  @@index([creator_id], map: "index_orders_on_creator_id")
+  @@index([designer_id], map: "index_orders_on_designer_id")
+  @@index([fundraiser_id], map: "index_orders_on_fundraiser_id")
+  @@index([parent_id], map: "index_orders_on_parent_id")
+  @@index([shipping_address_id], map: "index_orders_on_shipping_address_id")
+  @@index([status], map: "index_orders_on_status")
+}
+
+model organization_addresses {
+  id              Int       @id @default(autoincrement())
+  address_type    String?   @db.VarChar(255)
+  priority        String?   @db.VarChar(255)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  address_id      Int?
+  organization_id Int?
+
+  @@index([address_id], map: "index_organization_addresses_on_address_id")
+  @@index([organization_id], map: "index_organization_addresses_on_organization_id")
+}
+
+model organization_contacts {
+  id              Int       @id @default(autoincrement())
+  contact_type    String?   @db.VarChar(255)
+  role            String?   @db.VarChar(255)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  organization_id Int?
+  contact_id      Int?
+
+  @@index([contact_id], map: "index_organization_contacts_on_contact_id")
+  @@index([organization_id], map: "index_organization_contacts_on_organization_id")
+}
+
+model organization_matches {
+  id                Int       @id @default(autoincrement())
+  primary_id        Int?
+  secondary_id      Int?
+  status            String?   @db.VarChar(255)
+  match_score       Int?
+  match_details     String?   @db.Text
+  organization_name String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([primary_id], map: "index_organization_matches_on_primary_id")
+  @@index([secondary_id], map: "index_organization_matches_on_secondary_id")
+  @@index([status], map: "index_organization_matches_on_status")
+}
+
+model organization_stylesheets {
+  id              Int       @id @default(autoincrement())
+  subdomain       String?   @db.VarChar(255)
+  organization_id Int?
+  description     String?   @db.Text
+  headcolor       String?   @db.VarChar(255)
+  headtextcolor   String?   @db.VarChar(255)
+  bgcolor         String?   @db.VarChar(255)
+  bgtextcolor     String?   @db.VarChar(255)
+  footcolor       String?   @db.VarChar(255)
+  foottextcolor   String?   @db.VarChar(255)
+  banner          String?   @db.VarChar(255)
+  logo            String?   @db.VarChar(255)
+  headlogo        String?   @db.VarChar(255)
+  footlogo        String?   @db.VarChar(255)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+
+  @@index([organization_id], map: "index_organization_stylesheets_on_organization_id")
+}
+
+model organization_types {
+  id               Int       @id @default(autoincrement())
+  title            String?   @db.VarChar(255)
+  order_index      Int?      @default(0)
+  display          Boolean?  @default(true)
+  allow_newsletter Boolean?  @default(false)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  group            Boolean?  @default(false)
+}
+
+model organizations {
+  id                    Int       @id @default(autoincrement())
+  name                  String?   @db.VarChar(255)
+  legal_name            String?   @db.VarChar(255)
+  description           String?   @db.VarChar(255)
+  formation_year        Int?      @db.SmallInt
+  funding_type          String?   @db.VarChar(255)
+  tin                   String?   @db.VarChar(255)
+  nces_id               String?   @db.VarChar(255)
+  url                   String?   @db.VarChar(2400)
+  notes                 String?   @db.Text
+  use_custom_stylesheet Boolean?
+  brand_id              Int?
+  creator_id            Int?
+  external_id           String?   @db.VarChar(255)
+  mod_id                String?   @db.VarChar(255)
+  mod_organization_type String?   @db.VarChar(255)
+  mod_affiliate_id      String?   @db.VarChar(255)
+  mod_parent_id         String?   @db.VarChar(255)
+  wepay_config          String?   @default("standard") @db.VarChar(255)
+  historical_tax_ids    String?   @db.VarChar(255)
+  created_at            DateTime? @db.DateTime(0)
+  updated_at            DateTime? @db.DateTime(0)
+  stripped_name         String?   @db.VarChar(255)
+  split_parent_id       Int?
+
+  @@index([name], map: "fulltext_index_organizations_on_name")
+  @@index([mod_id], map: "index_organization_on_mod_id")
+  @@index([brand_id], map: "index_organizations_on_brand_id")
+  @@index([creator_id], map: "index_organizations_on_creator_id")
+  @@index([external_id], map: "index_organizations_on_external_id")
+  @@index([mod_affiliate_id], map: "index_organizations_on_mod_affiliate_id")
+  @@index([mod_parent_id], map: "index_organizations_on_mod_parent_id")
+  @@index([split_parent_id], map: "index_organizations_on_split_parent_id")
+  @@index([tin], map: "index_organizations_on_tin")
+}
+
+model otl_incentives {
+  id                     Int          @id @default(autoincrement())
+  fundraiser_id          Int?         @unique(map: "index_otl_incentives_on_fundraiser_id")
+  potential_points_value Int?
+  otl_status             Boolean?
+  award_date             DateTime?    @db.DateTime(0)
+  award_user_id          Int?
+  award_points           Int?
+  store_account_email    String?      @db.VarChar(255)
+  deleted_at             DateTime?    @db.DateTime(0)
+  created_at             DateTime     @db.DateTime(0)
+  updated_at             DateTime     @db.DateTime(0)
+  fundraisers            fundraisers? @relation(fields: [fundraiser_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_rails_d1cbd9ca60")
+}
+
+model otl_jobs {
+  id           Int       @id @default(autoincrement())
+  status       String?   @db.VarChar(255)
+  job_name     String?   @db.VarChar(255)
+  error_count  Int?
+  start_at     DateTime? @db.DateTime(0)
+  finish_at    DateTime? @db.DateTime(0)
+  dry_run_mode Boolean?
+  created_at   DateTime  @db.DateTime(0)
+  updated_at   DateTime  @db.DateTime(0)
+}
+
+model pay_groups {
+  id                  Int       @id @default(autoincrement())
+  name                String?   @db.VarChar(255)
+  base_pay_cents      Int?      @default(140000)
+  standard_rate_int   Int?      @default(500)
+  product_rate_int    Int?      @default(300)
+  bonus_rate_int      Int?      @default(500)
+  on_draw             Boolean   @default(false)
+  on_bonus            Boolean   @default(true)
+  is_active           Boolean   @default(true)
+  dynamic_payout_only Boolean   @default(false)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+
+  @@index([name], map: "index_pay_groups_on_name")
+}
+
+model payment_account_transfers {
+  id                Int       @id @default(autoincrement())
+  entity_payment_id Int?
+  fundraiser_id     Int?
+  user_id           Int?
+  from_account      String?   @db.VarChar(255)
+  to_account        String?   @db.VarChar(255)
+  identifier        String?   @db.VarChar(255)
+  amount_cents      Int?
+  int_cc_fee_cents  Int?
+  checkout_id       String?   @db.VarChar(255)
+  checkout_state    String?   @db.VarChar(255)
+  notes             String?   @db.Text
+  deleted_at        DateTime? @db.DateTime(0)
+  created_at        DateTime  @db.DateTime(0)
+  updated_at        DateTime  @db.DateTime(0)
+
+  @@index([entity_payment_id], map: "index_payment_account_transfers_on_entity_payment_id")
+  @@index([fundraiser_id], map: "index_payment_account_transfers_on_fundraiser_id")
+  @@index([identifier], map: "index_payment_account_transfers_on_identifier")
+  @@index([user_id], map: "index_payment_account_transfers_on_user_id")
+}
+
+model payment_donors {
+  id         Int      @id @default(autoincrement())
+  identifier String   @db.VarChar(255)
+  name       String   @default("") @db.VarChar(255)
+  email      String   @db.VarChar(255)
+  phone      String   @db.VarChar(255)
+  line1      String   @db.Text
+  city       String   @db.VarChar(255)
+  state      String   @db.VarChar(255)
+  zip        String   @db.VarChar(255)
+  processor  String   @db.VarChar(255)
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model payments {
+  id                Int       @id @default(autoincrement())
+  payable_id        Int?
+  payable_type      String?   @db.VarChar(255)
+  fundraiser_id     Int?
+  wepay_account_id  Int?
+  status            String?   @db.VarChar(255)
+  account_id        String?   @db.VarChar(255)
+  checkout_id       String?   @db.VarChar(255)
+  preapproval_id    String?   @db.VarChar(255)
+  credit_card_id    String?   @db.VarChar(255)
+  checkout_state    String?   @db.VarChar(255)
+  amount_cents      Int?
+  app_fee_cents     Int?
+  cost_cents        Int?
+  int_cc_fee_cents  Int?
+  ext_cc_fee_cents  Int?
+  postal_code       String?   @db.VarChar(255)
+  country_code      String?   @db.VarChar(255)
+  origin_ip         String?   @db.VarChar(255)
+  error             String?   @db.VarChar(255)
+  error_description String?   @db.VarChar(255)
+  error_code        String?   @db.VarChar(255)
+  charged_back_at   DateTime? @db.DateTime(0)
+  deleted_at        DateTime? @db.DateTime(0)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+  dispute_won_id    String?   @db.VarChar(255)
+
+  @@index([checkout_id], map: "index_payments_on_checkout_id")
+  @@index([fundraiser_id], map: "index_payments_on_fundraiser_id")
+  @@index([payable_type, payable_id], map: "index_payments_on_payable_type_and_payable_id")
+  @@index([wepay_account_id], map: "index_payments_on_wepay_account_id")
+}
+
+model person_list_entries {
+  id             Int           @id @default(autoincrement())
+  person_list_id Int?
+  person_id      Int?
+  status         String?       @db.VarChar(255)
+  created_at     DateTime      @db.DateTime(0)
+  updated_at     DateTime      @db.DateTime(0)
+  deleted_at     DateTime?     @db.DateTime(0)
+  person_lists   person_lists? @relation(fields: [person_list_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_rails_f288befdb7")
+
+  @@index([person_id], map: "index_person_list_entries_on_person_id")
+  @@index([person_list_id], map: "index_person_list_entries_on_person_list_id")
+}
+
+model person_list_user_permissions {
+  id             Int          @id @default(autoincrement())
+  user_id        Int
+  person_list_id Int
+  created_at     DateTime     @db.DateTime(0)
+  updated_at     DateTime     @db.DateTime(0)
+  deleted_at     DateTime?    @db.DateTime(0)
+  users          users        @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "fk_rails_141bda5211")
+  person_lists   person_lists @relation(fields: [person_list_id], references: [id], onUpdate: Restrict, map: "fk_rails_6c703fb0d2")
+
+  @@index([person_list_id], map: "index_person_list_user_permissions_on_person_list_id")
+  @@index([user_id], map: "index_person_list_user_permissions_on_user_id")
+}
+
+model person_lists {
+  id                           Int                            @id @default(autoincrement())
+  user_id                      Int?
+  label                        String?                        @db.VarChar(255)
+  created_at                   DateTime                       @db.DateTime(0)
+  updated_at                   DateTime                       @db.DateTime(0)
+  contextable_type             String?                        @db.VarChar(255)
+  contextable_id               Int?
+  person_list_type             String?                        @db.VarChar(255)
+  deleted_at                   DateTime?                      @db.DateTime(0)
+  person_list_entries          person_list_entries[]
+  person_list_user_permissions person_list_user_permissions[]
+
+  @@index([contextable_type, contextable_id], map: "index_person_lists_on_contextable_type_and_contextable_id")
+  @@index([user_id], map: "index_person_lists_on_user_id")
+}
+
+model person_relationships {
+  id                Int      @id @default(autoincrement())
+  person_id         Int?
+  relationship_role String?  @db.VarChar(255)
+  related_person_id Int?
+  created_at        DateTime @db.DateTime(0)
+  updated_at        DateTime @db.DateTime(0)
+
+  @@index([person_id], map: "index_person_relationships_on_person_id")
+}
+
+model persons {
+  id         Int      @id @default(autoincrement())
+  first_name String?  @db.VarChar(255)
+  last_name  String?  @db.VarChar(255)
+  email      String?  @db.VarChar(255)
+  phone      String?  @db.VarChar(255)
+  user_id    Int?
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@index([email], map: "index_persons_on_email")
+  @@index([user_id], map: "index_persons_on_user_id")
+}
+
+model players {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  role       String?   @db.VarChar(255)
+  name       String?   @db.VarChar(255)
+  email      String?   @db.VarChar(255)
+  title      String?   @db.VarChar(255)
+  image      String?   @db.VarChar(255)
+  address    String?   @db.VarChar(255)
+  city       String?   @db.VarChar(255)
+  region     String?   @db.VarChar(255)
+  zip        String?   @db.VarChar(255)
+  country    String?   @db.VarChar(255)
+  start_date DateTime? @db.Date
+  end_date   DateTime? @db.Date
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "index_players_on_user_id")
+}
+
+model products {
+  id                Int       @id @default(autoincrement())
+  name              String?   @db.VarChar(255)
+  description       String?   @db.Text
+  price_cents       Int?
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+  fundraiser_id     Int?
+  price             Float?    @db.Float
+  image             String?   @db.VarChar(255)
+  donation_level_id Int?
+
+  @@index([donation_level_id], map: "index_products_on_donation_level_id")
+  @@index([fundraiser_id], map: "index_products_on_fundraiser_id")
+}
+
+model purchase_invoices {
+  id                Int       @id @default(autoincrement())
+  purchase_order_id Int?
+  document          String?   @db.VarChar(255)
+  external_id       String?   @db.VarChar(255)
+  amount_cents      Int?
+  notes             String?   @db.Text
+  vendor            String?   @db.VarChar(255)
+  received_date     DateTime? @db.Date
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_purchase_invoices_on_external_id")
+  @@index([purchase_order_id], map: "index_purchase_invoices_on_purchase_order_id")
+}
+
+model purchase_orders {
+  id          Int       @id @default(autoincrement())
+  document    String?   @db.VarChar(255)
+  internal_id String?   @db.VarChar(255)
+  notes       String?   @db.Text
+  vendor      String?   @db.VarChar(255)
+  placed_date DateTime? @db.Date
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+
+  @@index([internal_id], map: "index_purchase_orders_on_internal_id")
+}
+
+model purchases {
+  id                  Int       @id @default(autoincrement())
+  purchase_type       String?   @db.VarChar(255)
+  order_id            Int?
+  donation_id         Int?
+  fundraiser_id       Int?
+  user_id             Int?
+  fundraiser_user_id  Int?
+  supporter_id        Int?
+  donor_id            Int?
+  incentive_id        Int?
+  shipping_address_id Int?
+  price_cents         Int?
+  cost_cents          Int?
+  int_price_cents     Int?
+  net_earned_cents    Int?
+  total_cents         Int?      @default(0)
+  subtotal_cents      Int?      @default(0)
+  shipping_cents      Int?      @default(0)
+  size                String?   @db.VarChar(255)
+  notes               String?   @db.Text
+  deleted_at          DateTime? @db.DateTime(0)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+  product_id          Int?
+
+  @@index([donor_id], map: "index_purchase_on_donor_id")
+  @@index([donation_id], map: "index_purchases_on_donation_id")
+  @@index([fundraiser_id], map: "index_purchases_on_fundraiser_id")
+  @@index([fundraiser_user_id], map: "index_purchases_on_fundraiser_user_id")
+  @@index([incentive_id], map: "index_purchases_on_incentive_id")
+  @@index([order_id], map: "index_purchases_on_order_id")
+  @@index([purchase_type], map: "index_purchases_on_purchase_type")
+  @@index([shipping_address_id], map: "index_purchases_on_shipping_address_id")
+  @@index([supporter_id], map: "index_purchases_on_supporter_id")
+  @@index([user_id], map: "index_purchases_on_user_id")
+}
+
+model reasons {
+  id              Int       @id @default(autoincrement())
+  reason_type     String?   @db.VarChar(255)
+  reasonable_id   Int?
+  reasonable_type String?   @db.VarChar(255)
+  description     String?   @db.VarChar(255)
+  user_id         Int?
+  deleted_at      DateTime? @db.DateTime(0)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+}
+
+model referrals {
+  id                  Int       @id @default(autoincrement())
+  lead_id             Int
+  amount_cents        Int
+  referrer_identifier String    @db.VarChar(255)
+  campaign_identifier String    @db.VarChar(255)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+
+  @@index([lead_id], map: "index_referrals_on_lead_id")
+}
+
+model reminders {
+  id                   Int       @id @default(autoincrement())
+  user_id              Int?
+  subject_id           Int?
+  subject_type         String?   @db.VarChar(255)
+  scheduled_datetime   DateTime? @db.DateTime(0)
+  title                String?   @db.Text
+  details              String?   @db.Text
+  completed            Boolean   @default(false)
+  created_at           DateTime  @db.DateTime(0)
+  updated_at           DateTime  @db.DateTime(0)
+  deleted_at           DateTime? @db.DateTime(0)
+  notification_sent_at DateTime? @db.DateTime(0)
+}
+
+model report_template_data_points {
+  id                 Int      @id @default(autoincrement())
+  field_id           Int?
+  formatter_id       Int?
+  report_template_id Int?
+  position           Int?
+  header             String?  @db.VarChar(255)
+  created_at         DateTime @db.DateTime(0)
+  updated_at         DateTime @db.DateTime(0)
+}
+
+model report_templates {
+  id          Int      @id @default(autoincrement())
+  report_type String?  @db.VarChar(255)
+  name        String?  @db.VarChar(255)
+  description String?  @db.Text
+  created_at  DateTime @db.DateTime(0)
+  updated_at  DateTime @db.DateTime(0)
+}
+
+model sales_contacts {
+  id         Int       @id @default(autoincrement())
+  situation  String?   @db.VarChar(255)
+  user_id    Int?
+  method     String?   @db.VarChar(255)
+  value      String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "index_sales_contacts_on_user_id")
+}
+
+model sales_resources {
+  id         Int       @id @default(autoincrement())
+  title      String?   @db.VarChar(255)
+  file       String?   @db.VarChar(255)
+  category   String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model sales_updates {
+  id         Int       @id @default(autoincrement())
+  title      String?   @db.VarChar(255)
+  summary    String?   @db.Text
+  content    String?   @db.Text
+  read_more  String?   @db.Text
+  video_url  String?   @db.VarChar(255)
+  image      String?   @db.VarChar(255)
+  category   String?   @db.VarChar(255)
+  priority   Int?
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+}
+
+model schema_migrations {
+  version String @unique(map: "unique_schema_migrations") @db.VarChar(255)
+}
+
+model self_signup_assignments {
+  id             Int       @id @default(autoincrement())
+  self_signup_id Int?
+  salesrep_id    Int?
+  status         String?   @db.VarChar(255)
+  manual         Boolean?
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+
+  @@index([salesrep_id], map: "index_self_signup_assignments_on_salesrep_id")
+  @@index([self_signup_id], map: "index_self_signup_assignments_on_self_signup_id")
+}
+
+model self_signups {
+  id                           Int       @id @default(autoincrement())
+  organization                 String?   @db.VarChar(255)
+  group_name                   String?   @db.VarChar(255)
+  primary_name                 String?   @db.VarChar(255)
+  primary_email                String?   @db.VarChar(255)
+  primary_phone                String?   @db.VarChar(255)
+  primary_role                 String?   @db.VarChar(255)
+  city                         String?   @db.VarChar(255)
+  region                       String?   @db.VarChar(255)
+  zip                          String?   @db.VarChar(255)
+  reported_group_size          Int?
+  preferred_call_time          String?   @db.VarChar(255)
+  time_zone                    String?   @db.VarChar(255)
+  status                       String?   @db.Text
+  notes                        String?   @db.Text
+  skip_sdr                     Boolean   @default(false)
+  decision_maker               Boolean?
+  salesrep_id                  Int?
+  marketing_campaign_id        Int?
+  clinic_id                    Int?
+  referral                     String?   @db.VarChar(255)
+  created_at                   DateTime? @db.DateTime(0)
+  updated_at                   DateTime? @db.DateTime(0)
+  referral_url                 String?   @db.Text
+  final_url                    String?   @db.Text
+  referral_referrer_identifier String?   @db.VarChar(255)
+  referral_campaign_identifier String?   @db.VarChar(255)
+
+  @@index([clinic_id], map: "index_self_signups_on_clinic_id")
+  @@index([marketing_campaign_id], map: "index_self_signups_on_marketing_campaign_id")
+  @@index([salesrep_id], map: "index_self_signups_on_salesrep_id")
+}
+
+model server_access_managements {
+  id          Int      @id @default(autoincrement())
+  ip_address  String?  @db.VarChar(255)
+  user_agent  String?  @db.VarChar(255)
+  list_type   String?  @db.VarChar(255)
+  description String?  @db.VarChar(255)
+  created_at  DateTime @db.DateTime(0)
+  updated_at  DateTime @db.DateTime(0)
+
+  @@index([ip_address], map: "index_server_access_managements_on_ip_address")
+  @@index([list_type], map: "index_server_access_managements_on_list_type")
+}
+
+model settings {
+  id         Int       @id @default(autoincrement())
+  var        String    @db.VarChar(255)
+  value      String?   @db.Text
+  thing_id   Int?
+  thing_type String?   @db.VarChar(30)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@unique([thing_type, thing_id, var], map: "index_settings_on_thing_type_and_thing_id_and_var")
+}
+
+model shipment_addresses {
+  id                Int       @id @default(autoincrement())
+  order_shipment_id Int?
+  external_id       String?   @db.VarChar(255)
+  verified_delivery Boolean?
+  verified_zip      Boolean?
+  object_type       String?   @db.VarChar(255)
+  name              String?   @db.VarChar(255)
+  company           String?   @db.VarChar(255)
+  street1           String?   @db.VarChar(255)
+  street2           String?   @db.VarChar(255)
+  city              String?   @db.VarChar(255)
+  state             String?   @db.VarChar(255)
+  zip               String?   @db.VarChar(255)
+  country           String?   @db.VarChar(255)
+  phone             String?   @db.VarChar(255)
+  email             String?   @db.VarChar(255)
+  carrier_facility  String?   @db.VarChar(255)
+  residential       String?   @db.VarChar(255)
+  federal_tax_id    String?   @db.VarChar(255)
+  state_tax_id      String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_shipment_addresses_on_external_id")
+  @@index([order_shipment_id], map: "index_shipment_addresses_on_order_shipment_id")
+}
+
+model shipment_batches {
+  id                  Int       @id @default(autoincrement())
+  external_id         String?   @db.VarChar(255)
+  status              String?   @db.VarChar(255)
+  num_shipments       Int?
+  label_url           String?   @db.VarChar(255)
+  scan_form_id        String?   @db.VarChar(255)
+  scan_form_url       String?   @db.VarChar(255)
+  scan_form_message   String?   @db.VarChar(255)
+  scan_form_file_type String?   @db.VarChar(255)
+  scan_form_status    String?   @db.VarChar(255)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_shipment_batches_on_external_id")
+}
+
+model shipment_parcels {
+  id                 Int       @id @default(autoincrement())
+  order_shipment_id  Int?
+  external_id        String?   @db.VarChar(255)
+  predefined_package String?   @db.VarChar(255)
+  length             Float?    @db.Float
+  width              Float?    @db.Float
+  height             Float?    @db.Float
+  weight             Float?    @db.Float
+  created_at         DateTime? @db.DateTime(0)
+  updated_at         DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_shipment_parcels_on_external_id")
+  @@index([order_shipment_id], map: "index_shipment_parcels_on_order_shipment_id")
+}
+
+model shipment_postages {
+  id                Int       @id @default(autoincrement())
+  order_shipment_id Int?
+  external_id       String?   @db.VarChar(255)
+  date_advance      Int?
+  integrated_form   String?   @db.VarChar(255)
+  label_datetime    DateTime? @db.DateTime(0)
+  label_resolution  Int?
+  label_size        String?   @db.VarChar(255)
+  label_type        String?   @db.VarChar(255)
+  label_url         String?   @db.VarChar(255)
+  label_file_type   String?   @db.VarChar(255)
+  label_pdf_url     String?   @db.VarChar(255)
+  label_epl2_url    String?   @db.VarChar(255)
+  label_zpl_url     String?   @db.VarChar(255)
+  printed_at        DateTime? @db.DateTime(0)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_shipment_postages_on_external_id")
+  @@index([order_shipment_id], map: "index_shipment_postages_on_order_shipment_id")
+}
+
+model shipment_rates {
+  id                       Int       @id @default(autoincrement())
+  order_shipment_id        Int?
+  external_id              String?   @db.VarChar(255)
+  carrier_account_id       String?   @db.VarChar(255)
+  service                  String?   @db.VarChar(255)
+  carrier                  String?   @db.VarChar(255)
+  rate_cents               Int?
+  currency                 String?   @db.VarChar(255)
+  retail_rate_cents        Int?
+  retail_currency          String?   @db.VarChar(255)
+  list_rate_cents          Int?
+  list_currency            String?   @db.VarChar(255)
+  delivery_days            Int?
+  delivery_date            DateTime? @db.DateTime(0)
+  delivery_date_guaranteed Boolean?
+  purchased_at             DateTime? @db.DateTime(0)
+  created_at               DateTime? @db.DateTime(0)
+  updated_at               DateTime? @db.DateTime(0)
+
+  @@index([carrier_account_id], map: "index_shipment_rates_on_carrier_account_id")
+  @@index([external_id], map: "index_shipment_rates_on_external_id")
+  @@index([order_shipment_id], map: "index_shipment_rates_on_order_shipment_id")
+}
+
+model shipment_trackers {
+  id                Int       @id @default(autoincrement())
+  order_shipment_id Int?
+  external_id       String?   @db.VarChar(255)
+  tracking_code     String?   @db.VarChar(255)
+  status            String?   @db.VarChar(255)
+  signed_by         String?   @db.VarChar(255)
+  weight            Float?    @db.Float
+  est_delivery_date DateTime? @db.DateTime(0)
+  carrier           String?   @db.VarChar(255)
+  public_url        String?   @db.VarChar(255)
+  created_at        DateTime? @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_shipment_trackers_on_external_id")
+  @@index([order_shipment_id], map: "index_shipment_trackers_on_order_shipment_id")
+}
+
+model sizes {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  product_type String?   @db.VarChar(255)
+  size         String?   @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "index_sizes_on_user_id")
+}
+
+model sms_invites {
+  id                 Int       @id @default(autoincrement())
+  fundraiser_id      Int?
+  user_id            Int?
+  fundraiser_user_id Int?
+  external_id        String?   @db.VarChar(255)
+  number             String?   @db.VarChar(255)
+  status             String?   @db.VarChar(255)
+  count              Int?
+  sms_type           String?   @db.VarChar(255)
+  created_at         DateTime? @db.DateTime(0)
+  updated_at         DateTime? @db.DateTime(0)
+
+  @@index([external_id], map: "index_sms_invites_on_external_id")
+  @@index([fundraiser_id], map: "index_sms_invites_on_fundraiser_id")
+  @@index([fundraiser_user_id], map: "index_sms_invites_on_fundraiser_user_id")
+  @@index([user_id], map: "index_sms_invites_on_user_id")
+}
+
+model sms_reminders {
+  id                   Int          @id @default(autoincrement())
+  message              String       @db.Text
+  reminder_type        String       @db.Text
+  reminder_status      String       @db.Text
+  contact_type         String       @db.Text
+  contact_name         String?      @db.Text
+  contact_phone        String?      @db.Text
+  scheduled_at         DateTime?    @db.DateTime(0)
+  deleted_at           DateTime?    @db.DateTime(0)
+  notification_sent_at DateTime?    @db.DateTime(0)
+  fundraiser_id        Int?
+  created_at           DateTime     @db.DateTime(0)
+  updated_at           DateTime     @db.DateTime(0)
+  sent_at              DateTime?    @db.DateTime(0)
+  fundraisers          fundraisers? @relation(fields: [fundraiser_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_rails_3c2f0f06d2")
+
+  @@index([fundraiser_id], map: "index_sms_reminders_on_fundraiser_id")
+}
+
+model social_invites {
+  id                 Int       @id @default(autoincrement())
+  fundraiser_id      Int?
+  user_id            Int?
+  fundraiser_user_id Int?
+  count              Int?
+  social_type        String?   @db.VarChar(255)
+  created_at         DateTime? @db.DateTime(0)
+  updated_at         DateTime? @db.DateTime(0)
+
+  @@index([fundraiser_id], map: "index_social_invites_on_fundraiser_id")
+  @@index([fundraiser_user_id], map: "index_social_invites_on_fundraiser_user_id")
+  @@index([user_id], map: "index_social_invites_on_user_id")
+}
+
+model stored_files {
+  id          Int       @id @default(autoincrement())
+  file_type   String?   @db.VarChar(255)
+  uploaded_at DateTime? @db.DateTime(0)
+  attachment  String?   @db.VarChar(255)
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+}
+
+model supporters {
+  id         Int       @id @default(autoincrement())
+  email      String?   @db.VarChar(255)
+  name       String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  user_id    Int?
+
+  @@index([email], map: "index_supporter_on_email")
+  @@index([user_id], map: "index_supporters_on_user_id")
+}
+
+model swagraiser_line_items {
+  id             Int      @id @default(autoincrement())
+  item_type      String?  @db.VarChar(255)
+  item_id        Int?
+  transaction_id Int?
+  quantity       Int?
+  size           String?  @db.VarChar(255)
+  item_price     Int?
+  total          Int?
+  created_at     DateTime @db.DateTime(0)
+  updated_at     DateTime @db.DateTime(0)
+
+  @@index([item_type, item_id], map: "index_swagraiser_line_items_on_item_type_and_item_id")
+}
+
+model swagraiser_users {
+  id             Int      @id @default(autoincrement())
+  role           String?  @db.VarChar(255)
+  user_id        Int?
+  swagraiser_id  Int?
+  participant_id Int?
+  created_at     DateTime @db.DateTime(0)
+  updated_at     DateTime @db.DateTime(0)
+  goal           Int?     @default(0)
+}
+
+model swagraisers {
+  id              Int       @id @default(autoincrement())
+  start_date      DateTime? @db.Date
+  end_date        DateTime? @db.Date
+  join_code       String?   @db.VarChar(255)
+  name            String?   @db.VarChar(255)
+  description     String?   @db.Text
+  status          String?   @db.VarChar(255)
+  slug            String?   @db.VarChar(255)
+  fundraiser_id   Int?
+  time_zone       String?   @db.VarChar(255)
+  created_at      DateTime  @db.DateTime(0)
+  updated_at      DateTime  @db.DateTime(0)
+  coach_join_code String?   @db.VarChar(255)
+  disabled        Boolean?  @default(false)
+  goal            Int?      @default(0)
+  split           Float?    @default(0) @db.Float
+}
+
+model team_players {
+  id         Int       @id @default(autoincrement())
+  team_id    Int?
+  player_id  Int?
+  role       String?   @db.VarChar(255)
+  title      String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@index([player_id], map: "index_team_players_on_player_id")
+  @@index([team_id], map: "index_team_players_on_team_id")
+}
+
+model teams {
+  id          Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(255)
+  description String?   @db.Text
+  image       String?   @db.VarChar(255)
+  lft         Int?
+  rgt         Int?
+  parent_id   Int?
+  depth       Int?
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+
+  @@index([depth], map: "index_teams_on_depth")
+  @@index([lft], map: "index_teams_on_lft")
+  @@index([parent_id], map: "index_teams_on_parent_id")
+  @@index([rgt], map: "index_teams_on_rgt")
+}
+
+model test_email_addresses {
+  id            Int     @id @default(autoincrement())
+  email_address String? @db.VarChar(255)
+
+  @@index([email_address], map: "index_test_email_addresses_on_email_address")
+}
+
+model tracker_details {
+  id                  Int       @id @default(autoincrement())
+  shipment_tracker_id Int?
+  message             String?   @db.VarChar(255)
+  status              String?   @db.VarChar(255)
+  scan_datetime       DateTime? @db.DateTime(0)
+  source              String?   @db.VarChar(255)
+  city                String?   @db.VarChar(255)
+  state               String?   @db.VarChar(255)
+  country             String?   @db.VarChar(255)
+  zip                 String?   @db.VarChar(255)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+
+  @@index([shipment_tracker_id], map: "index_tracker_details_on_shipment_tracker_id")
+}
+
+model transactions {
+  id                    Int       @id @default(autoincrement())
+  target_type           String?   @db.VarChar(255)
+  target_id             Int?
+  amount_cents          Int?
+  stripe_source_id      String?   @db.VarChar(255)
+  subtotal_cents        Int?
+  shipping_cents        Int?
+  total_cents           Int?
+  user_id               Int?
+  purchaser_name        String?   @db.VarChar(255)
+  shipping_address_id   Int?
+  created_at            DateTime  @db.DateTime(0)
+  updated_at            DateTime  @db.DateTime(0)
+  stripe_transaction_id String?   @db.VarChar(255)
+  split_cents           Int?      @default(0)
+  participant_id        Int?
+  participant_type      String?   @db.VarChar(255)
+  refunded_at           DateTime? @db.DateTime(0)
+  stripe_refund_id      String?   @db.VarChar(255)
+
+  @@index([target_type, target_id], map: "index_transactions_on_target_type_and_target_id")
+}
+
+model uploaded_images {
+  id                Int      @id @default(autoincrement())
+  image_filename    String?  @db.VarChar(255)
+  original_filename String?  @db.VarChar(255)
+  status            String?  @db.VarChar(255)
+  category          String?  @db.VarChar(255)
+  owner_type        String?  @db.VarChar(255)
+  owner_id          Int?
+  uploader_id       Int?
+  write_id          String?  @db.VarChar(255)
+  read_id           String?  @db.VarChar(255)
+  created_at        DateTime @db.DateTime(0)
+  updated_at        DateTime @db.DateTime(0)
+
+  @@index([owner_type, owner_id], map: "index_uploaded_images_on_owner_type_and_owner_id")
+  @@index([uploader_id], map: "index_uploaded_images_on_uploader_id")
+}
+
+model user_addresses {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  address_id   Int?
+  address_type String?   @db.VarChar(255)
+  priority     String?   @db.VarChar(255)
+  deleted_at   DateTime? @db.DateTime(0)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+
+  @@index([address_id], map: "index_user_addresses_on_address_id")
+  @@index([user_id], map: "index_user_addresses_on_user_id")
+}
+
+model user_contacts {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  contact_id   Int?
+  contact_type String?   @db.VarChar(255)
+  role         String?   @db.VarChar(255)
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+
+  @@index([contact_id], map: "index_user_contacts_on_contact_id")
+  @@index([user_id], map: "index_user_contacts_on_user_id")
+}
+
+model user_custom_settings {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  identifier String?   @db.VarChar(255)
+  value      String?   @db.Text
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@index([identifier], map: "index_user_custom_settings_on_identifier")
+  @@index([user_id], map: "index_user_custom_settings_on_user_id")
+  @@index([user_id, identifier], map: "index_user_custom_settings_on_user_id_and_identifier")
+}
+
+model user_fittings {
+  id         Int      @id @default(autoincrement())
+  user_id    Int?     @unique(map: "index_user_fittings_on_user_id")
+  fitting    String?  @db.VarChar(255)
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+}
+
+model user_notification_preference_options {
+  id                                Int      @id @default(autoincrement())
+  user_id                           Int?
+  notification_preference_option_id Int?
+  created_at                        DateTime @db.DateTime(0)
+  updated_at                        DateTime @db.DateTime(0)
+}
+
+model user_notifications {
+  id              Int       @id @default(autoincrement())
+  notification_id Int?
+  user_id         Int?
+  dismissed_at    DateTime? @db.DateTime(0)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+
+  @@index([dismissed_at], map: "index_user_notifications_on_dismissed_at")
+  @@index([notification_id], map: "index_user_notifications_on_notification_id")
+  @@index([user_id], map: "index_user_notifications_on_user_id")
+}
+
+model user_sso_credentials {
+  id                Int     @id @default(autoincrement())
+  user_id           Int?    @unique(map: "index_user_sso_credentials_on_user_id")
+  user_directory_id String? @db.VarChar(100)
+
+  @@index([user_directory_id], map: "index_user_sso_credentials_on_user_directory_id")
+}
+
+model user_sso_statuses {
+  id          Int     @id @default(autoincrement())
+  user_id     Int?    @unique(map: "index_user_sso_statuses_on_user_id")
+  is_enabled  Boolean @default(true)
+  description String? @db.VarChar(255)
+}
+
+model user_wepay_accounts {
+  id               Int       @id @default(autoincrement())
+  user_id          Int?
+  wepay_account_id Int?
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+
+  @@index([user_id], map: "index_user_wepay_accounts_on_user_id")
+  @@index([wepay_account_id], map: "index_user_wepay_accounts_on_wepay_account_id")
+}
+
+model user_workflows {
+  id                       Int       @id @default(autoincrement())
+  uuid                     String?   @unique(map: "index_user_workflows_on_uuid") @db.VarChar(255)
+  name                     String?   @db.VarChar(255)
+  context_resource_type    String?   @db.VarChar(255)
+  context_resource_id      Int?
+  workflow_owner_id        Int?
+  workflow_owner_type      String?   @db.VarChar(255)
+  user_id                  Int?
+  status                   String?   @db.VarChar(255)
+  active_step              String?   @db.VarChar(255)
+  manually_completed_steps String?   @db.Text
+  last_interaction_at      DateTime? @db.DateTime(0)
+  completed_at             DateTime? @db.DateTime(0)
+  initiation_method        String?   @db.VarChar(255)
+  created_at               DateTime  @db.DateTime(0)
+  updated_at               DateTime  @db.DateTime(0)
+
+  @@index([context_resource_type, context_resource_id], map: "index_user_flows_on_context_resource_type_and_id")
+  @@index([user_id], map: "index_user_workflows_on_user_id")
+  @@index([workflow_owner_id, workflow_owner_type], map: "index_workflow_owner_user_workflows")
+}
+
+model users {
+  id                           Int                            @id @default(autoincrement())
+  provider                     String?                        @db.VarChar(255)
+  oauth_token                  String?                        @db.Text
+  oauth_expires_at             DateTime?                      @db.DateTime(0)
+  email                        String?                        @db.VarChar(255)
+  phone_number                 String?                        @db.VarChar(255)
+  password_digest              String?                        @db.VarChar(255)
+  remember_digest              String?                        @db.VarChar(255)
+  first_name                   String?                        @db.VarChar(255)
+  last_name                    String?                        @db.VarChar(255)
+  last_login                   DateTime?                      @db.DateTime(0)
+  status                       String?                        @db.VarChar(255)
+  image                        String?                        @db.VarChar(255)
+  password_recovery_token      String?                        @db.VarChar(255)
+  created_at                   DateTime?                      @db.DateTime(0)
+  updated_at                   DateTime?                      @db.DateTime(0)
+  admin                        Boolean?                       @default(false)
+  auth_method                  String?                        @default("none") @db.VarChar(255)
+  last_fundraiser_viewed_id    Int?
+  guardian_name                String?                        @db.VarChar(255)
+  guardian_email               String?                        @db.VarChar(255)
+  second_guardian_name         String?                        @db.VarChar(255)
+  second_guardian_email        String?                        @db.VarChar(255)
+  time_zone                    String?                        @db.VarChar(255)
+  reset_token                  String?                        @db.VarChar(255)
+  one_time_login_token         String?                        @db.VarChar(255)
+  one_time_login_expires_at    DateTime?                      @db.DateTime(0)
+  active                       Boolean?                       @default(true)
+  last_login_reminder          DateTime?                      @db.DateTime(0)
+  uid                          String?                        @db.VarChar(255)
+  roles_mask                   Int?
+  sign_in_count                Int                            @default(0)
+  parent_id                    Int?
+  feature_flags                String?                        @db.VarChar(255)
+  origin                       String?                        @db.VarChar(255)
+  graduation_year              Int?
+  gender                       String?                        @db.VarChar(255)
+  otp_secret_key               String?                        @db.VarChar(255)
+  last_otp_at                  DateTime?                      @db.DateTime(0)
+  person_list_user_permissions person_list_user_permissions[]
+
+  @@index([email], map: "fulltext_index_users_on_email")
+  @@index([first_name], map: "fulltext_index_users_on_first_name")
+  @@index([last_name], map: "fulltext_index_users_on_last_name")
+  @@index([first_name, last_name, email], map: "fulltext_index_users_search_terms")
+  @@index([email], map: "index_users_on_email")
+  @@index([one_time_login_token], map: "index_users_on_one_time_login_token")
+  @@index([origin], map: "index_users_on_origin")
+  @@index([parent_id], map: "index_users_on_parent_id")
+  @@index([provider, uid], map: "index_users_on_provider_and_uid")
+  @@index([reset_token], map: "index_users_on_reset_token")
+  @@index([roles_mask], map: "index_users_on_roles_mask")
+}
+
+model wepay_account_payments {
+  id               Int       @id @default(autoincrement())
+  wepay_account_id Int?
+  fundraiser_id    Int?
+  user_id          Int?
+  account_id       Int?
+  amount_cents     Int?
+  int_cc_fee_cents Int?
+  payment_type     String?   @db.VarChar(255)
+  preapproval_id   String?   @db.VarChar(255)
+  credit_card_id   String?   @db.VarChar(255)
+  checkout_id      String?   @db.VarChar(255)
+  checkout_state   String?   @db.VarChar(255)
+  notes            String?   @db.Text
+  deleted_at       DateTime? @db.DateTime(0)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+
+  @@index([checkout_id], map: "index_wepay_account_payments_on_checkout_id")
+  @@index([fundraiser_id], map: "index_wepay_account_payments_on_fundraiser_id")
+  @@index([user_id], map: "index_wepay_account_payments_on_user_id")
+  @@index([wepay_account_id], map: "index_wepay_account_payments_on_wepay_account_id")
+}
+
+model wepay_accounts {
+  id                              Int       @id @default(autoincrement())
+  organization_id                 Int?
+  fundraiser_id                   Int?
+  owner_user_id                   String?   @db.VarChar(255)
+  account_id                      String?   @db.VarChar(255)
+  bank_account_id                 String?   @db.VarChar(255)
+  kyc_id                          String?   @db.VarChar(255)
+  access_token                    String?   @db.VarChar(255)
+  encrypted_wepay_access_token    String?   @db.VarChar(255)
+  encrypted_wepay_access_token_iv String?   @db.VarChar(255)
+  encrypted_wepay_email           String?   @db.VarChar(255)
+  encrypted_wepay_email_iv        String?   @db.VarChar(255)
+  encrypted_wepay_password        String?   @db.VarChar(255)
+  encrypted_wepay_password_iv     String?   @db.VarChar(255)
+  balance_cents                   Int?
+  incoming_pending_amount_cents   Int?
+  outgoing_pending_amount_cents   Int?
+  reserved_amount_cents           Int?
+  account_state                   String?   @db.VarChar(255)
+  account_review_status           String?   @db.VarChar(255)
+  outgoing_payments_status        String?   @db.VarChar(255)
+  incoming_payments_status        String?   @db.VarChar(255)
+  withdrawal_type                 String?   @db.VarChar(255)
+  withdrawal_period               String?   @db.VarChar(255)
+  action_reasons                  String?   @db.VarChar(255)
+  disabled_reasons                String?   @db.VarChar(255)
+  kyc_notes                       String?   @db.Text
+  settlement_notes                String?   @db.Text
+  withdrawal_notes                String?   @db.Text
+  disablement_at                  DateTime? @db.DateTime(0)
+  full_ssn_requested_at           DateTime? @db.DateTime(0)
+  withdrawal_next_at              DateTime? @db.DateTime(0)
+  withdrawal_received_at          DateTime? @db.DateTime(0)
+  withdrawal_delivered_at         DateTime? @db.DateTime(0)
+  withdrawal_approved_at          DateTime? @db.DateTime(0)
+  account_created_at              DateTime? @db.DateTime(0)
+  deleted_at                      DateTime? @db.DateTime(0)
+  created_at                      DateTime? @db.DateTime(0)
+  updated_at                      DateTime? @db.DateTime(0)
+  kyc_status                      String?   @db.VarChar(255)
+  settlement_status               String?   @db.VarChar(255)
+  account_type                    String?   @db.VarChar(255)
+  creator_id                      Int?
+
+  @@index([creator_id], map: "index_wepay_accounts_on_creator_id")
+  @@index([deleted_at], map: "index_wepay_accounts_on_deleted_at")
+  @@index([fundraiser_id], map: "index_wepay_accounts_on_fundraiser_id")
+  @@index([kyc_status], map: "index_wepay_accounts_on_kyc_status")
+  @@index([organization_id], map: "index_wepay_accounts_on_organization_id")
+}
+
+model wepay_documents {
+  id               Int       @id @default(autoincrement())
+  wepay_account_id Int?
+  file_id          BigInt?
+  file_type        String?   @db.VarChar(255)
+  state            String?   @db.VarChar(255)
+  reject_reason    String?   @db.VarChar(255)
+  submitted_at     DateTime? @db.DateTime(0)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+}
+
+model withdrawals {
+  id               Int       @id @default(autoincrement())
+  wepay_account_id Int?
+  fundraiser_id    Int?
+  withdrawal_id    String?   @db.VarChar(255)
+  withdrawal_state String?   @db.VarChar(255)
+  amount_cents     Int?
+  withdrawal_type  String?   @db.VarChar(255)
+  payable_name     String?   @db.VarChar(255)
+  city             String?   @db.VarChar(255)
+  region           String?   @db.VarChar(255)
+  postal_code      String?   @db.VarChar(255)
+  country          String?   @db.VarChar(255)
+  cashed_at        DateTime? @db.DateTime(0)
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+
+  @@index([fundraiser_id], map: "index_withdrawals_on_fundraiser_id")
+  @@index([wepay_account_id], map: "index_withdrawals_on_wepay_account_id")
+}

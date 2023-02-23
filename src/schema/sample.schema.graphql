@@ -1,0 +1,7 @@
+type SampleQuery {
+  msg: String
+}
+
+type SampleMutation {
+  msg: String
+}
