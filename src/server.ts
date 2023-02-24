@@ -27,18 +27,18 @@ const app = async () => {
 
   // start the graphql server
   await startStandaloneServer(server, {
-    context: async ({ req }) => {
-      const bearer = req.headers.authorization;
-      const token = bearer?.split("Bearer ")[1];
-      if (process.env.SECRET_KEY !== token) {
-        throw customResponse(
-          ICustomErrorCodes.UNAUTHORIZED,
-          401,
-          "request is unauthorized"
-        );
-      }
-      return { token };
-    },
+    // context: async ({ req }) => {
+    //   const bearer = req.headers.authorization;
+    //   const token = bearer?.split("Bearer ")[1];
+    //   if (process.env.SECRET_KEY !== token) {
+    //     throw customResponse(
+    //       ICustomErrorCodes.UNAUTHORIZED,
+    //       401,
+    //       "request is unauthorized"
+    //     );
+    //   }
+    //   return { token };
+    // },
     listen: { port: parseInt(process.env.PORT || "4000") },
   });
 
