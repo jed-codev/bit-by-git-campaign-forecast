@@ -42,6 +42,7 @@ export type Mutation = {
 
 export type Query = {
   __typename?: 'Query';
+  activities?: Maybe<Array<Maybe<Scalars['String']>>>;
   campaignData?: Maybe<Scalars['JSON']>;
   sampleQuery?: Maybe<SampleQuery>;
 };
@@ -162,6 +163,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  activities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   campaignData?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, Partial<QueryCampaignDataArgs>>;
   sampleQuery?: Resolver<Maybe<ResolversTypes['SampleQuery']>, ParentType, ContextType>;
 };

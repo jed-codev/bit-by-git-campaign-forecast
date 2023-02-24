@@ -3,6 +3,7 @@ scalar JSON
 type Query {
   sampleQuery: SampleQuery
   campaignData(option: ICampaignData): JSON
+  activities: [String]
 }
 
 type Mutation {
