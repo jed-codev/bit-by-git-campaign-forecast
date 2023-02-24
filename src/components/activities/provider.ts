@@ -9,7 +9,7 @@ export default class filterActivities {
     const prisma = new PrismaClient();
 
     const data = <IActivities[]>(
-      await prisma.$queryRaw`select distinct(activity) from groups;`
+      await prisma.$queryRaw`select distinct(activity) from groups WHERE activity IS NOT NULL AND activity <> '' AND activity <> 'undefined';`
     );
     const getActivitiesArray = data.map(
       (result: IActivities) => result.activity
