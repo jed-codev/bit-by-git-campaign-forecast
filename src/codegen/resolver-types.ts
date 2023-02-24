@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = undefined | T;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -11,7 +11,29 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  JSON: any;
 };
+
+export type ICampaignData = {
+  month?: InputMaybe<Scalars['String']>;
+  sports?: InputMaybe<Scalars['String']>;
+  zipCode?: InputMaybe<Scalars['String']>;
+};
+
+export enum Month {
+  April = 'april',
+  August = 'august',
+  December = 'december',
+  February = 'february',
+  January = 'january',
+  July = 'july',
+  June = 'june',
+  March = 'march',
+  May = 'may',
+  November = 'november',
+  October = 'october',
+  September = 'september'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -20,7 +42,13 @@ export type Mutation = {
 
 export type Query = {
   __typename?: 'Query';
+  campaignData?: Maybe<Scalars['JSON']>;
   sampleQuery?: Maybe<SampleQuery>;
+};
+
+
+export type QueryCampaignDataArgs = {
+  option?: InputMaybe<ICampaignData>;
 };
 
 export type SampleMutation = {
@@ -103,6 +131,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ICampaignData: ICampaignData;
+  JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  Month: Month;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SampleMutation: ResolverTypeWrapper<SampleMutation>;
@@ -113,6 +144,8 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  ICampaignData: ICampaignData;
+  JSON: Scalars['JSON'];
   Mutation: {};
   Query: {};
   SampleMutation: SampleMutation;
@@ -120,11 +153,16 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
 };
 
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   sampleMutation?: Resolver<Maybe<ResolversTypes['SampleMutation']>, ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  campaignData?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, Partial<QueryCampaignDataArgs>>;
   sampleQuery?: Resolver<Maybe<ResolversTypes['SampleQuery']>, ParentType, ContextType>;
 };
 
@@ -139,6 +177,7 @@ export type SampleQueryResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type Resolvers<ContextType = any> = {
+  JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SampleMutation?: SampleMutationResolvers<ContextType>;
