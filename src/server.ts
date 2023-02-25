@@ -37,7 +37,14 @@ const app = async () => {
   // Apply middleware after starting the server
   app.use(
     (req, res, next) => {
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+      const allowedOrigins = [
+        "https://snap-campaign-forecast-widget.vercel.app",
+        "http://localhost:3001",
+      ]; // allowed origins
+      const origin = req.headers.origin || "";
+      if (allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+      }
       res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS"); // allowed methods
       res.setHeader(
         "Access-Control-Allow-Headers",
