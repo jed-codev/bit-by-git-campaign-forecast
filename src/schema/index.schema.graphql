@@ -3,7 +3,7 @@ scalar JSON
 type Query {
   sampleQuery: SampleQuery
   campaignData(option: ICampaignData): JSON
-  forecastCampaignData(option: IForecaseInput): [IForecastData]
+  forecastCampaignData(option: IForecastInput): [IForecastData]
   activities: [String]
 }
 
@@ -22,7 +22,7 @@ type IForecastData {
   state: String
 }
 
-input IForecaseInput {
+input IForecastInput {
   sports: String
   zipCode: String
 }

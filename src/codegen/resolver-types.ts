@@ -20,11 +20,6 @@ export type ICampaignData = {
   zipCode?: InputMaybe<Scalars['String']>;
 };
 
-export type IForecaseInput = {
-  sports?: InputMaybe<Scalars['String']>;
-  zipCode?: InputMaybe<Scalars['String']>;
-};
-
 export type IForecastData = {
   __typename?: 'IForecastData';
   activity?: Maybe<Scalars['String']>;
@@ -35,6 +30,11 @@ export type IForecastData = {
   total_team_size?: Maybe<Scalars['Int']>;
   year?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
+};
+
+export type IForecastInput = {
+  sports?: InputMaybe<Scalars['String']>;
+  zipCode?: InputMaybe<Scalars['String']>;
 };
 
 export enum Month {
@@ -72,7 +72,7 @@ export type QueryCampaignDataArgs = {
 
 
 export type QueryForecastCampaignDataArgs = {
-  option?: InputMaybe<IForecaseInput>;
+  option?: InputMaybe<IForecastInput>;
 };
 
 export type SampleMutation = {
@@ -156,8 +156,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ICampaignData: ICampaignData;
-  IForecaseInput: IForecaseInput;
   IForecastData: ResolverTypeWrapper<IForecastData>;
+  IForecastInput: IForecastInput;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   Month: Month;
@@ -172,8 +172,8 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   ICampaignData: ICampaignData;
-  IForecaseInput: IForecaseInput;
   IForecastData: IForecastData;
+  IForecastInput: IForecastInput;
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   Mutation: {};
