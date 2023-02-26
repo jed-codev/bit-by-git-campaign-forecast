@@ -3,11 +3,28 @@ scalar JSON
 type Query {
   sampleQuery: SampleQuery
   campaignData(option: ICampaignData): JSON
+  forecastCampaignData(option: IForecastInput): [IForecastData]
   activities: [String]
 }
 
 type Mutation {
   sampleMutation: SampleMutation
+}
+
+type IForecastData {
+  total_net_raised_cents: Int
+  total_team_size: Int
+  created_at: String
+  activity: String
+  zip: String
+  year: String
+  month: String
+  state: String
+}
+
+input IForecastInput {
+  sports: String
+  zipCode: String
 }
 
 input ICampaignData {

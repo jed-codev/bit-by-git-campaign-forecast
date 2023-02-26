@@ -20,6 +20,23 @@ export type ICampaignData = {
   zipCode?: InputMaybe<Scalars['String']>;
 };
 
+export type IForecastData = {
+  __typename?: 'IForecastData';
+  activity?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['String']>;
+  month?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  total_net_raised_cents?: Maybe<Scalars['Int']>;
+  total_team_size?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
+};
+
+export type IForecastInput = {
+  sports?: InputMaybe<Scalars['String']>;
+  zipCode?: InputMaybe<Scalars['String']>;
+};
+
 export enum Month {
   April = 'april',
   August = 'august',
@@ -44,12 +61,18 @@ export type Query = {
   __typename?: 'Query';
   activities?: Maybe<Array<Maybe<Scalars['String']>>>;
   campaignData?: Maybe<Scalars['JSON']>;
+  forecastCampaignData?: Maybe<Array<Maybe<IForecastData>>>;
   sampleQuery?: Maybe<SampleQuery>;
 };
 
 
 export type QueryCampaignDataArgs = {
   option?: InputMaybe<ICampaignData>;
+};
+
+
+export type QueryForecastCampaignDataArgs = {
+  option?: InputMaybe<IForecastInput>;
 };
 
 export type SampleMutation = {
@@ -133,6 +156,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ICampaignData: ICampaignData;
+  IForecastData: ResolverTypeWrapper<IForecastData>;
+  IForecastInput: IForecastInput;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   Month: Month;
   Mutation: ResolverTypeWrapper<{}>;
@@ -146,12 +172,27 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   ICampaignData: ICampaignData;
+  IForecastData: IForecastData;
+  IForecastInput: IForecastInput;
+  Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   Mutation: {};
   Query: {};
   SampleMutation: SampleMutation;
   SampleQuery: SampleQuery;
   String: Scalars['String'];
+};
+
+export type IForecastDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['IForecastData'] = ResolversParentTypes['IForecastData']> = {
+  activity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  created_at?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  month?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  total_net_raised_cents?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  total_team_size?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  year?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zip?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
@@ -165,6 +206,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   activities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   campaignData?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, Partial<QueryCampaignDataArgs>>;
+  forecastCampaignData?: Resolver<Maybe<Array<Maybe<ResolversTypes['IForecastData']>>>, ParentType, ContextType, Partial<QueryForecastCampaignDataArgs>>;
   sampleQuery?: Resolver<Maybe<ResolversTypes['SampleQuery']>, ParentType, ContextType>;
 };
 
@@ -179,6 +221,7 @@ export type SampleQueryResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type Resolvers<ContextType = any> = {
+  IForecastData?: IForecastDataResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
