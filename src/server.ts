@@ -40,6 +40,8 @@ const app = async () => {
       const allowedOrigins = [
         "https://snap-campaign-forecast-widget.vercel.app",
         "http://localhost:3001",
+        "https://snap-campaign-forecast-widget-devfatimaranile.vercel.app",
+        "https://www.snapraise.com/cam-forcast-1234567890",
       ]; // allowed origins
       const origin = req.headers.origin || "";
       if (allowedOrigins.includes(origin)) {
